@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-storage-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDvPMK4D81brwvdaFzPEGywgX8sDJQdqNs",
+            authDomain: "starbeesgo.firebaseapp.com",
+            projectId: "starbeesgo",
+            storageBucket: "starbeesgo.firebasestorage.app",
+            messagingSenderId: "607023497912",
+            appId: "1:607023497912:web:92b66e069b6fc99d602a4d",
+            measurementId: "G-1B1DR66LQ5"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Methods</title>
+    <link rel="stylesheet" href="Payment_Method_Style.css">
+</head>
+<body>
+    <div>
+        <h1>Manage Payment Methods</h2>
+        <ul id="paymentMethodsList"></ul>
+        <form id="addPaymentForm">
+            <label for="category">Category:</label>
+            <select id="category" required>
+                <option value="Credit/Debit Card">Credit/Debit Card</option>
+                <option value="E-Wallet">E-Wallet</option>
+                <option value="Online Banking">Online Banking</option>
+            </select>
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+            <label for="url">Payment URL:</label>
+            <input type="url" id="url" required>
+            <label for="api">API Key:</label>
+            <input type="text" id="api">
+            <button type="submit">Add Payment Method</button>
+        </form>
+    </div>
+    <script src="Payment_Method_Script.js"></script>
+</body>
+</html>

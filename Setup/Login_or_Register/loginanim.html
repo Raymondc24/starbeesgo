@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDvPMK4D81brwvdaFzPEGywgX8sDJQdqNs",
+            authDomain: "starbeesgo.firebaseapp.com",
+            projectId: "starbeesgo",
+            storageBucket: "starbeesgo.firebasestorage.app",
+            messagingSenderId: "607023497912",
+            appId: "1:607023497912:web:92b66e069b6fc99d602a4d",
+            measurementId: "G-1B1DR66LQ5"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login & Register Animation</title>
+    <link rel="stylesheet" href="loginanim.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <img src="Logo.jpeg" alt="Refresh" class="logo-icon" onclick="window.location.reload();" />
+
+    <div class="login-reg-panel">
+        <div class="panel-container">
+            <div class="register-info-box">
+                <h1>Welcome to Starbees Go!</h1>
+                <p>'Buzz in, Pick up and Chow down!'</p>
+            </div>
+            
+            <div class="black-panel">
+                <div class="login-show">
+                    <h2>LOGIN</h2>
+                    <form id="loginForm">
+                        <input type="email" id="email" placeholder="Email" required />
+                        <input type="password" id="password" placeholder="Password" required />
+                        <input type="submit" value="Login" />
+                    </form>
+                    <p id="errorMessage" class="error-message"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="loginanim.js"></script>
+</body>
+</html>

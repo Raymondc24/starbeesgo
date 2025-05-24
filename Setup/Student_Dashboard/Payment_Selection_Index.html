@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-storage-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDvPMK4D81brwvdaFzPEGywgX8sDJQdqNs",
+            authDomain: "starbeesgo.firebaseapp.com",
+            projectId: "starbeesgo",
+            storageBucket: "starbeesgo.firebasestorage.app",
+            messagingSenderId: "607023497912",
+            appId: "1:607023497912:web:92b66e069b6fc99d602a4d",
+            measurementId: "G-1B1DR66LQ5"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Methods</title>
+    <link rel="stylesheet" href="Payment_Selection_Style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Back Button -->
+        <div class="back-button">
+            <button id="backToCartBtn" class="back-arrow">&larr;</button>
+        </div>
+
+        <!-- Checkout Title -->
+        <h1 class="checkout-title">Checkout</h1>
+
+        <!-- Stall Image and Details -->
+        <div class="stall-details">
+            <img id="stallImage" src="" alt="Stall Image" class="stall-image">
+            <p id="stallName" class="stall-name">Pay for <span></span></p>
+            <p id="totalAmount" class="total-amount">RM 0.00</p>
+        </div>
+
+        <!-- Order Details -->
+        <div class="order-details">
+            <p>Order ID: <span id="orderId"></span></p>
+            <p>Item List:</p>
+            <ul id="itemList"></ul>
+            <p>Issue Date: <span id="issueDate"></span></p>
+            <p>Due Date: <span id="dueDate"></span></p>
+        </div>
+
+        <!-- Payment Method Categories -->
+        <div class="payment-categories">
+            <button class="category-btn" id="eWalletBtn">eWallet</button>
+            <button class="category-btn" id="creditCardBtn">Credit/Debit Card</button>
+            <button class="category-btn" id="onlineBankingBtn">Online Banking</button>
+        </div>
+
+        <!-- Payment Methods -->
+        <div id="paymentButtonsContainer" class="payment-methods"></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="Payment_Selection_Script.js"></script>
+</body>
+</html>

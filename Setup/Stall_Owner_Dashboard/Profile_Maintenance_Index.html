@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-storage-compat.js"></script>
+  <script>
+      const firebaseConfig = {
+          apiKey: "AIzaSyDvPMK4D81brwvdaFzPEGywgX8sDJQdqNs",
+          authDomain: "starbeesgo.firebaseapp.com",
+          projectId: "starbeesgo",
+          storageBucket: "starbeesgo.firebasestorage.app",
+          messagingSenderId: "607023497912",
+          appId: "1:607023497912:web:92b66e069b6fc99d602a4d",
+          measurementId: "G-1B1DR66LQ5"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+      const storage = firebase.storage();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile Maintenance</title>
+  <link rel="stylesheet" href="Profile_Maintenance_Style.css" />
+
+</head>
+<body>
+  <button id="backButton" class="back-btn">&larr; Back</button>
+  <h1>Profile Maintenance</h1>
+  <form id="profileForm">
+    <label>Stall Name</label>
+    <input type="text" id="stallName" placeholder="Stall Name" required />
+
+    <label>Nickname</label>
+    <input type="text" id="nickname" placeholder="Nickname" required />
+
+    <label>Phone Number</label>
+    <input type="tel" id="phoneNumber" placeholder="Phone Number" required />
+
+    <label>Stall Image</label>
+    <input type="file" id="stallImage" accept="image/*" />
+    <div class="image-preview">
+      <img id="stallImagePreview" />
+    </div>
+
+    <button type="submit">Save Changes</button>
+  </form>
+  <script src="Profile_Maintenance_Script.js"></script>
+</body>
+</html>
