@@ -46,24 +46,28 @@ async function loadRegisteredStalls() {
       return;
     }
     const stallData = stallDoc.data();
-    console.log("Stall data:", stallData);
     const stallDiv = document.createElement("div");
     stallDiv.className = "stall";
-    stallDiv.onclick = () => goToStall(stallDoc.id);
+
+    // Disable logic and design
+    if (!stallData.isOpen) {
+      stallDiv.classList.add("stall-disabled");
+      stallDiv.title = "Stall is closed";
+    } else {
+      stallDiv.onclick = () => {
+        window.location.href = `Food_Selection_Index.html?stallId=${stallDoc.id}`;
+      };
+    }
 
     stallDiv.innerHTML = `
       <img src="${stallData.imageUrl}" alt="${stallData.name}" />
       <div>
         <strong>${stallData.name}</strong>
-        <div>Phone Number - ${stallData.phone || ''}</div> <!-- Show phone number instead -->
+        <div>Phone Number - ${stallData.phone || ''}</div>
+        ${!stallData.isOpen ? '<div class="closed-label">Closed</div>' : ''}
       </div>
     `;
     stallContainer.appendChild(stallDiv);
-
-    // Example: When a stall card is clicked
-    stallDiv.addEventListener('click', () => {
-      window.location.href = `Food_Selection_Index.html?stallId=${stallDoc.id}`;
-    });
   });
 }
 

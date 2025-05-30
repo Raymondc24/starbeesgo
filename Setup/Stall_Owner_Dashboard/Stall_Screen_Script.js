@@ -23,6 +23,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else {
       document.getElementById("ownerName").textContent = "No owner";
     }
+
+    const stallOpenCheckbox = document.getElementById("stallOpenCheckbox");
+    const stallStatusLabel = document.getElementById("stallStatusLabel");
+
+    // Use the already fetched stallDoc
+    const isOpen = data.isOpen ?? false;
+    stallOpenCheckbox.checked = isOpen;
+    stallStatusLabel.textContent = isOpen ? "Open" : "Closed";
+    stallStatusLabel.style.color = isOpen ? "#4caf50" : "#d32f2f";
+
+    // Update status on toggle
+    stallOpenCheckbox.addEventListener("change", async () => {
+      const isOpen = stallOpenCheckbox.checked;
+      stallStatusLabel.textContent = isOpen ? "Open" : "Closed";
+      stallStatusLabel.style.color = isOpen ? "#4caf50" : "#d32f2f";
+      await db.collection("stalls").doc(stallId).update({ isOpen });
+    });
   } else {
     alert("Stall not found!");
     window.history.back();

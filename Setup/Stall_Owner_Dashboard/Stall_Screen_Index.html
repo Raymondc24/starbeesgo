@@ -47,6 +47,14 @@
   <!-- Add this where you want the owner name to show -->
   <span id="ownerName" style="display:none"></span>
 
+  <div class="stall-status-container">
+    <label class="stall-switch">
+      <input type="checkbox" id="stallOpenCheckbox">
+      <span class="slider"></span>
+    </label>
+    <span id="stallStatusLabel">Closed</span>
+  </div>
+
   <section class="stall-actions">
     <button class="stall-action-btn" id="orderListButton">
       <img src="https://i.ibb.co/mFBRFRtb/order-icon.png" alt="order-icon"/>
@@ -58,13 +66,14 @@
     </button>
     <button class="stall-action-btn" id="paymentMethodButton">
       <img src="https://i.ibb.co/7xQKD8b0/payment-icon.png" alt="Payment Method" />
-      Payment Method
+      Payment Management
     </button>
     <button class="stall-action-btn" id="summaryButton">
       <img src="https://i.ibb.co/vx0vNM6P/summary-icon.png" alt="Summary" />
       Summary
     </button>
   </section>
+
   <script src="Stall_Screen_Script.js"></script>
 </body>
 </html>

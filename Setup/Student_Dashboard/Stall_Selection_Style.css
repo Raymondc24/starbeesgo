@@ -125,3 +125,19 @@ h1 {
 .logout-btn:hover {
   background: #bfae4b;
 }
+
+.stall-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  filter: grayscale(70%);
+  cursor: not-allowed;
+  border: 2px solid #d32f2f !important;
+  position: relative;
+}
+
+.closed-label {
+  color: #d32f2f;
+  font-weight: bold;
+  margin-top: 6px;
+  font-size: 1em;
+}
