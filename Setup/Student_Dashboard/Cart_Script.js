@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.getElementById("paymentBtn").addEventListener("click", async () => {
     await saveCartToFirestore();
-    alert("Proceeding to payment...");
     window.location.href = `Payment_Selection_Index.html?stallId=${stallId}`;
   });
 
@@ -144,9 +143,26 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  // Fetch and set stall name
+  async function setStallName() {
+    if (stallId) {
+      const stallDoc = await db.collection("stalls").doc(stallId).get();
+      if (stallDoc.exists) {
+        document.getElementById("stallName").textContent = stallDoc.data().name;
+      } else {
+        document.getElementById("stallName").textContent = "Stall";
+      }
+    } else {
+      document.getElementById("stallName").textContent = "Stall";
+    }
+  }
+
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
       loadCartItems();
     }
   });
+
+  // Call this after DOMContentLoaded
+  setStallName();
 });

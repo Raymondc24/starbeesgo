@@ -16,37 +16,43 @@
             appId: "1:607023497912:web:92b66e069b6fc99d602a4d",
             measurementId: "G-1B1DR66LQ5"
         };
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
         const storage = firebase.storage();
     </script>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Methods</title>
+    <title>Manage Payment Methods</title>
     <link rel="stylesheet" href="Payment_Method_Style.css">
+    <!-- Use the same style as Payment_Selection_Style.css for consistency -->
 </head>
 <body>
-    <div>
-        <h1>Manage Payment Methods</h2>
-        <ul id="paymentMethodsList"></ul>
+    <button id="backBtn" type="button">←</button>    
+    <div class="container">
+        <h1 class="checkout-title">Manage Payment Methods</h1>
+        <!-- Add Payment Method Form -->
         <form id="addPaymentForm">
-            <label for="category">Category:</label>
-            <select id="category" required>
-                <option value="Credit/Debit Card">Credit/Debit Card</option>
-                <option value="E-Wallet">E-Wallet</option>
-                <option value="Online Banking">Online Banking</option>
+            <label for="addCategory">Category:</label>
+            <select id="addCategory" required>
+                <option value="">Select Category</option>
             </select>
-            <label for="name">Name:</label>
-            <input type="text" id="name" required>
+
+            <label for="addName">Name:</label>
+            <select id="addName" required>
+                <option value="">Select Name</option>
+            </select>
+
             <label for="url">Payment URL:</label>
-            <input type="url" id="url" required>
+            <input type="text" id="url" required />
+
             <label for="api">API Key:</label>
-            <input type="text" id="api">
+            <input type="text" id="api" required />
+
             <button type="submit">Add Payment Method</button>
         </form>
+        <div id="categoryButtons" style="margin-bottom:20px;"></div>
+        <div id="paymentMethodsList" class="payment-methods"></div>
     </div>
     <script src="Payment_Method_Script.js"></script>
 </body>

@@ -2,24 +2,41 @@ document.addEventListener("DOMContentLoaded", async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const stallId = urlParams.get("stallId");
 
+    const paymentCategoryButtonsContainer = document.getElementById("paymentCategoryButtonsContainer");
     const paymentButtonsContainer = document.getElementById("paymentButtonsContainer");
     const stallImage = document.getElementById("stallImage");
-    const stallName = document.getElementById("stallName span");
+    const stallNameSpan = document.querySelector("#stallName span");
     const totalAmount = document.getElementById("totalAmount");
     const orderIdElement = document.getElementById("orderId");
     const itemList = document.getElementById("itemList");
     const issueDate = document.getElementById("issueDate");
     const dueDate = document.getElementById("dueDate");
 
-    // Generate Order ID
-    const generateOrderId = async () => {
-        const snapshot = await db.collection("transactions").orderBy("orderId", "desc").limit(1).get();
-        let lastOrderId = snapshot.empty ? 0 : snapshot.docs[0].data().orderId;
-        return lastOrderId + 1;
-    };
+    let cartItems = [];
+    let total = 0;
+    let timer = null;
+    let paymentSelected = false;
+    let preGeneratedOrderId = "-";
+    let preGeneratedOrderDate = "";
 
-    const orderId = await generateOrderId();
-    orderIdElement.textContent = orderId;
+    // Generate next order ID for today and this stall (using UTC+8)
+    async function generateNextOrderId() {
+        const serverDate = await getServerDate();
+        // Add 8 hours for UTC+8
+        const utc8Date = new Date(serverDate.getTime() + 8 * 60 * 60 * 1000);
+        const orderDate = utc8Date.toISOString().slice(0, 10); // "YYYY-MM-DD"
+        const snapshot = await db.collection("transactions")
+            .where("orderDate", "==", orderDate)
+            .where("stallId", "==", stallId)
+            .orderBy("orderId", "desc")
+            .limit(1)
+            .get();
+        let lastOrderId = snapshot.empty ? 0 : parseInt(snapshot.docs[0].data().orderId, 10);
+        return {
+            orderId: (lastOrderId + 1).toString().padStart(4, "0"),
+            orderDate
+        };
+    }
 
     // Fetch Stall Details
     const fetchStallDetails = async () => {
@@ -27,20 +44,33 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (stallDoc.exists) {
             const stallData = stallDoc.data();
             stallImage.src = stallData.imageUrl;
-            stallName.textContent = stallData.name;
-            totalAmount.textContent = `RM ${stallData.totalAmount.toFixed(2)}`;
+            stallNameSpan.textContent = stallData.name;
         }
     };
 
-    // Fetch and Display Item List
+    // Fetch and Display Item List & Calculate Total
     const fetchItemList = async () => {
+        itemList.innerHTML = "";
+        total = 0;
+        cartItems = [];
         const itemsSnapshot = await db.collection("cart").where("stallId", "==", stallId).get();
+        if (itemsSnapshot.empty) {
+            window.location.href = `Stall_Selection_Index.html?stallId=${stallId}`;
+            return;
+        }
         itemsSnapshot.forEach(doc => {
             const item = doc.data();
+            cartItems.push({ ...item, id: doc.id });
+            let itemTotal = item.totalPrice;
+            if (typeof itemTotal !== "number") {
+                itemTotal = (item.price && item.quantity) ? item.price * item.quantity : 0;
+            }
+            total += itemTotal;
             const listItem = document.createElement("li");
-            listItem.textContent = `${item.name} x${item.quantity} - RM ${item.totalPrice.toFixed(2)}`;
+            listItem.textContent = `${item.name} x${item.quantity} - RM ${itemTotal.toFixed(2)}`;
             itemList.appendChild(listItem);
         });
+        totalAmount.textContent = `RM ${total.toFixed(2)}`;
     };
 
     // Set Issue and Due Dates
@@ -48,15 +78,47 @@ document.addEventListener("DOMContentLoaded", async () => {
     issueDate.textContent = now.toLocaleString();
     dueDate.textContent = new Date(now.getTime() + 3 * 60000).toLocaleString();
 
-    // Fetch Payment Methods by Category
+    // Timer for 3 minutes
+    timer = setTimeout(() => {
+        if (!paymentSelected) {
+            alert("Payment unsuccessful. Time expired.");
+            window.location.href = "Stall_Selection_Index.html";
+        }
+    }, 3 * 60 * 1000);
+
+    // Fetch unique payment categories for this stall
+    async function renderPaymentCategoryButtons() {
+        paymentCategoryButtonsContainer.innerHTML = "";
+        const snapshot = await db.collection("paymentMethods")
+            .where("stallId", "==", stallId)
+            .get();
+        if (snapshot.empty) return;
+
+        const categories = [...new Set(snapshot.docs.map(doc => doc.data().category))];
+        categories.forEach(category => {
+            const btn = document.createElement("button");
+            btn.className = "payment-category-btn";
+            btn.textContent = category;
+            btn.onclick = () => fetchPaymentMethods(category);
+            paymentCategoryButtonsContainer.appendChild(btn);
+        });
+    }
+
+    // Fetch and render payment methods for a category
     const fetchPaymentMethods = async (category) => {
         paymentButtonsContainer.innerHTML = "";
-        const snapshot = await db.collection("paymentMethods").where("stallId", "==", stallId).where("category", "==", category).get();
+        const snapshot = await db.collection("paymentMethods")
+            .where("stallId", "==", stallId)
+            .where("category", "==", category)
+            .get();
         snapshot.forEach(doc => {
             const data = doc.data();
             const button = document.createElement("button");
             button.classList.add("payment-btn");
-            button.innerHTML = `<img src="${data.iconUrl}" alt="${data.name}"><br>${data.name}`;
+            button.innerHTML = `
+                ${data.iconUrl ? `<img src="${data.iconUrl}" alt="${data.name}" class="payment-method-icon">` : ""}
+                <span>${data.name}</span>
+            `;
             button.addEventListener("click", () => processPayment(data));
             paymentButtonsContainer.appendChild(button);
         });
@@ -64,24 +126,37 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Process Payment
     const processPayment = async (paymentMethod) => {
+        paymentSelected = true;
+        clearTimeout(timer);
         alert(`Processing payment via ${paymentMethod.name}...`);
         setTimeout(async () => {
             alert("Payment successful!");
+
+            // Use pre-generated orderId and orderDate
+            const newOrderId = preGeneratedOrderId;
+            const orderDate = preGeneratedOrderDate;
+
+            // 2. Reset the cart after payment
+            const batch = db.batch();
+            cartItems.forEach(item => {
+                const ref = db.collection("cart").doc(item.id);
+                batch.delete(ref);
+            });
+            await batch.commit();
+
+            // 3. Add transaction with up-to-date orderId and orderDate
             await db.collection("transactions").add({
-                orderId,
+                orderId: newOrderId,
                 stallId,
                 paymentMethod: paymentMethod.name,
-                amount: parseFloat(totalAmount.textContent.replace("RM ", "")),
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                amount: total,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                orderDate: orderDate
             });
+
             window.location.href = `Checkout_Index.html?stallId=${stallId}`;
         }, 2000);
     };
-
-    // Event Listeners for Category Buttons
-    document.getElementById("eWalletBtn").addEventListener("click", () => fetchPaymentMethods("eWallet"));
-    document.getElementById("creditCardBtn").addEventListener("click", () => fetchPaymentMethods("Credit/Debit Card"));
-    document.getElementById("onlineBankingBtn").addEventListener("click", () => fetchPaymentMethods("Online Banking"));
 
     // Back Button
     document.getElementById("backToCartBtn").addEventListener("click", () => {
@@ -91,4 +166,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Initialize Page
     await fetchStallDetails();
     await fetchItemList();
+    await renderPaymentCategoryButtons();
+
+    // Generate and show next order ID before payment
+    const { orderId, orderDate } = await generateNextOrderId();
+    preGeneratedOrderId = orderId;
+    preGeneratedOrderDate = orderDate;
+    orderIdElement.textContent = orderId;
+
+    async function getServerDate() {
+        const doc = await db.collection("serverTime").doc("now").set({ timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+        const snap = await db.collection("serverTime").doc("now").get();
+        const serverTimestamp = snap.data().timestamp.toDate();
+        return serverTimestamp;
+    }
 });

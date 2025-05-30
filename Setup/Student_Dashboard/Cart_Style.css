@@ -24,10 +24,15 @@ header button#backBtn {
   cursor: pointer;
 }
 
-header .stall-name {
+header .stall-name, #stallName.stall-name {
   flex: 1;
   text-align: center;
   font-size: 1.5em;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  color: #111;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 /* Cart container */

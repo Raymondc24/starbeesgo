@@ -1,81 +1,187 @@
+/* General page styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f8f9fa;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
 }
 
+/* Container */
 .container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
+    max-width: 900px;
+    margin: 40px auto;
     background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    padding: 32px 24px;
 }
 
-h1 {
+/* Center the category buttons */
+#categoryButtons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
     margin-bottom: 20px;
+}
+
+/* Category buttons */
+.category-btn {
+    background: #e9ecef;
+    border: none;
+    color: #333;
+    padding: 10px 22px;
+    margin: 0 6px 12px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+.category-btn.active,
+.category-btn:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+/* Payment methods list */
+#paymentMethodsList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 32px 24px; /* row gap, column gap */
+    margin-top: 20px;
+}
+
+/* Payment option card */
+.payment-option {
+    width: 270px;
+    min-height: 180px;
+    background: #f8f9fa;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    padding: 18px 0 18px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    transition: box-shadow 0.2s;
+}
+.payment-option:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+}
+.payment-option img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 4px;
+    background: #fff;
+    border: 1px solid #ddd;
+    margin-bottom: 8px;
+    max-width: 48px;
+    max-height: 48px;
+}
+
+/* Payment option buttons */
+.select-payment-btn {
+    background: #28a745;
+    color: #fff;
+    border: none;
+    padding: 7px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 2px;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+.select-payment-btn.edit-btn {
+    background: #ffc107;
     color: #333;
 }
-
-.payment-methods {
-    display: flex;
-    justify-content: space-around;
-    margin: 20px 0;
+.select-payment-btn:hover {
+    opacity: 0.85;
+}
+.select-payment-btn[style*="background:#dc3545;"] {
+    background: #dc3545 !important;
+    color: #fff !important;
 }
 
-.payment-option {
-    width: 30%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    text-align: center;
-    background: #f7f7f7;
-    transition: transform 0.2s, box-shadow 0.2s;
+/* Add payment form */
+#addPaymentForm {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px 18px;
+    margin-bottom: 28px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
-
-.payment-option:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+#addPaymentForm label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
 }
-
-.payment-option img {
-    max-width: 100px;
-    margin-bottom: 10px;
+#addPaymentForm select,
+#addPaymentForm input[type="text"],
+#addPaymentForm input[type="url"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+    background: #fff;
 }
-
-.payment-option h3 {
-    margin: 10px 0;
-    color: #555;
-}
-
-.select-payment-btn {
-    padding: 10px 20px;
+#addPaymentForm button[type="submit"] {
     background: #007bff;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 16px;
     cursor: pointer;
+    font-weight: 500;
     transition: background 0.2s;
 }
-
-.select-payment-btn:hover {
+#addPaymentForm button[type="submit"]:hover {
     background: #0056b3;
 }
 
-#backToCartBtn {
-    margin-top: 20px;
-    padding: 10px 20px;
+/* Icon preview and remove button */
+#iconPreview {
+    display: none;
+    margin-top: 8px;
+    max-width: 48px;
+    max-height: 48px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background: #fff;
+}
+#removeIconBtn {
+    display: none;
+    margin-left: 10px;
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    vertical-align: middle;
+}
+#removeIconBtn:hover {
+    background: #b52a37;
+}
+
+/* Back button */
+#backBtn {
     background: #6c757d;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    padding: 8px 20px;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 15px;
+    margin-top: 18px;
     transition: background 0.2s;
 }
-
-#backToCartBtn:hover {
-    background: #5a6268;
+#backBtn:hover {
+    background: #343a40;
 }

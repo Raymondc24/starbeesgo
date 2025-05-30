@@ -40,7 +40,7 @@
 
         <!-- Stall Image and Details -->
         <div class="stall-details">
-            <img id="stallImage" src="" alt="Stall Image" class="stall-image">
+            <img id="stallImage" class="stall-image">
             <p id="stallName" class="stall-name">Pay for <span></span></p>
             <p id="totalAmount" class="total-amount">RM 0.00</p>
         </div>
@@ -55,19 +55,10 @@
         </div>
 
         <!-- Payment Method Categories -->
-        <div class="payment-categories">
-            <button class="category-btn" id="eWalletBtn">eWallet</button>
-            <button class="category-btn" id="creditCardBtn">Credit/Debit Card</button>
-            <button class="category-btn" id="onlineBankingBtn">Online Banking</button>
-        </div>
-
+        <div id="paymentCategoryButtonsContainer"></div>
         <!-- Payment Methods -->
         <div id="paymentButtonsContainer" class="payment-methods"></div>
     </div>
-
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
     <script src="Payment_Selection_Script.js"></script>
 </body>
 </html>

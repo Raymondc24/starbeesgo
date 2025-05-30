@@ -21,23 +21,33 @@ header.merged-header {
 header.merged-header .top-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.5em;
+  justify-content: flex-start;
+  gap: 1em;
+  margin-bottom: 1.2em; /* gap below the row */
 }
 
-header .stall-name {
-  text-align: center;
+header.merged-header .top-row #backBtn {
   font-size: 1.5em;
-  flex: 1;
-}
-
-header button#backBtn {
   background: none;
   border: none;
   cursor: pointer;
+  margin-right: 0.5em;
+}
+
+header .stall-name, #stallName.stall-name {
+  flex: 1;
+  text-align: center;
   font-size: 1.5em;
-  align-self: flex-start;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  color: #111;
+}
+
+header .filter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
 }
 
 /* Dropdowns and sort/search styling */

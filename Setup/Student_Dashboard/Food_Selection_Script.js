@@ -63,9 +63,24 @@ async function loadCartFromFirestore() {
   }
 }
 
+// Fetch and set stall name
+async function setStallName() {
+  if (stallId) {
+    const stallDoc = await db.collection("stalls").doc(stallId).get();
+    if (stallDoc.exists) {
+      document.getElementById("stallName").textContent = stallDoc.data().name;
+    } else {
+      document.getElementById("stallName").textContent = "Stall";
+    }
+  } else {
+    document.getElementById("stallName").textContent = "Stall";
+  }
+}
+
 // On DOM load
 document.addEventListener('DOMContentLoaded', async () => {
   await updateBasketQuantity(); // Update basket quantity on page load
+  setStallName();
 });
 
 // Load from Firestore
