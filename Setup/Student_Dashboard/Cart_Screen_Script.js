@@ -165,26 +165,35 @@ async function loadCartData() {
 
     const stallName = stallDoc.exists ? stallDoc.data().name : "Unknown Stall";
     const stallImage = stallDoc.exists ? stallDoc.data().imageUrl : "https://via.placeholder.com/150";
+    const isOpen = stallDoc.exists ? stallDoc.data().isOpen : false;
 
     const row = document.createElement("div");
     row.className = "cart-row cart-stall-block";
     row.setAttribute("data-stall-id", stallId);
+
+    // Add disabled class and closed label if stall is closed
+    if (!isOpen) {
+      row.classList.add("cart-stall-closed");
+    }
+
     row.innerHTML = `
       <input type="checkbox" class="stall-checkbox" style="display: none;" />
       <div class="details">
-        <h4>${stallName}</h4>
+        <h4>${stallName} ${!isOpen ? '<span class="closed-label">(Closed)</span>' : ''}</h4>
         <p>${stallData.totalQuantity} items</p>
       </div>
       <img src="${stallImage}" alt="${stallName}" />
     `;
     cartBody.appendChild(row);
 
-    // Add click event listener to redirect to respective stall cart index
-    row.addEventListener("click", (event) => {
-      if (!manageMode) {
-        window.location.href = `Cart_Index.html?stallId=${stallId}`;
-      }
-    });
+    // Only add redirect if stall is open
+    if (isOpen) {
+      row.addEventListener("click", (event) => {
+        if (!manageMode) {
+          window.location.href = `Cart_Index.html?stallId=${stallId}`;
+        }
+      });
+    }
   }
 
   // Attach event listeners to dynamically added checkboxes

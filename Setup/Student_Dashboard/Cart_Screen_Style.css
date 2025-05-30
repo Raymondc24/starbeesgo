@@ -96,6 +96,14 @@
   background: #f7fafd;
 }
 
+.cart-stall-closed {
+  opacity: 0.6;
+  pointer-events: none;
+  filter: grayscale(70%);
+  border: 2px solid #d32f2f !important;
+  position: relative;
+}
+
 .stall-checkbox {
   margin-right: 16px;
   width: 20px;
@@ -165,4 +173,11 @@ button:disabled {
 /* Hide old cart-row/item-row styles if not used anymore */
 .cart-item-row, .item-name, .item-qty {
   display: none !important;
+}
+
+.closed-label {
+  color: #d32f2f;
+  font-weight: bold;
+  font-size: 1em;
+  margin-left: 8px;
 }
