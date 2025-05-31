@@ -4,13 +4,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const orderId = urlParams.get("orderId");
   const stallId = urlParams.get("stallId");
+  const orderDate = urlParams.get("orderDate");
   if (!orderId) {
     document.getElementById("checkoutBody").innerHTML = "<p>Order not found.</p>";
     return;
   }
 
-  // Query the transactions collection for the orderId
-  const querySnapshot = await db.collection("transactions").where("orderId", "==", orderId).get();
+  // Query the transactions collection for the orderId, stallId, and orderDate
+  const querySnapshot = await db.collection("transactions")
+      .where("orderId", "==", orderId)
+      .where("stallId", "==", stallId)
+      .where("orderDate", "==", orderDate)
+      .get();
   if (querySnapshot.empty) {
     document.getElementById("checkoutBody").innerHTML = "<p>Order not found.</p>";
     return;
@@ -90,8 +95,12 @@ function renderOrderDetails(orderId, order, stall) {
 
     if (!isPending) {
       document.getElementById("receivedBtn").onclick = async () => {
-        // Find the Firestore docId by orderId
-        const querySnapshot = await db.collection("transactions").where("orderId", "==", orderId).get();
+        // Find the Firestore docId by orderId, stallId, and orderDate
+        const querySnapshot = await db.collection("transactions")
+          .where("orderId", "==", orderId)
+          .where("stallId", "==", order.stallId)
+          .where("orderDate", "==", order.orderDate)
+          .get();
         if (!querySnapshot.empty) {
           const docRef = querySnapshot.docs[0].ref;
           await docRef.update({ status: "received" });

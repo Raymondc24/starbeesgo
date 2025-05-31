@@ -15,16 +15,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const checkoutBody = document.getElementById('checkoutBody');
 
     // Load all orders for this user (not received)
-    async function loadOrders() {
+    async function loadOrders(snapshot) {
         checkoutBody.innerHTML = "";
-        const snapshot = await db.collection("transactions")
-            .where("userId", "==", userId)
-            .where("status", "!=", "received")
-            .orderBy("status")
-            .orderBy("timestamp", "desc")
-            .get();
-
-        if (snapshot.empty) {
+        if (!snapshot || snapshot.empty) {
             window.location.href = `Stall_Selection_Index.html?userId=${userId}`;
             return;
         }
@@ -33,6 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const order = doc.data();
             const orderId = order.orderId;
             const stallId = order.stallId;
+            const orderDate = order.orderDate; // <-- get orderDate from order
             const stallDoc = await db.collection("stalls").doc(stallId).get();
             const stall = stallDoc.exists ? stallDoc.data() : {};
 
@@ -50,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <span class="order-status">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span>
             `;
             block.onclick = () => {
-                window.location.href = `Checkout_Index.html?userId=${userId}&stallId=${stallId}&orderId=${orderId}`;
+                window.location.href = `Checkout_Index.html?userId=${userId}&stallId=${stallId}&orderId=${orderId}&orderDate=${encodeURIComponent(orderDate || "")}`;
             };
             block.setAttribute("data-orderid", orderId);
             checkoutBody.appendChild(block);
@@ -62,11 +56,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = `Stall_Selection_Index.html?userId=${userId}`;
     };
 
-    await loadOrders();
+    // Initial load
+    const initialSnapshot = await db.collection("transactions")
+        .where("userId", "==", userId)
+        .where("status", "in", ["pending", "done"])
+        .orderBy("timestamp", "desc")
+        .get();
+    await loadOrders(initialSnapshot);
 
-    // Listen for order status changes (live update)
     db.collection("transactions")
         .where("userId", "==", userId)
-        .where("status", "!=", "received")
+        .where("status", "in", ["pending", "done"])
+        .orderBy("timestamp", "desc")
         .onSnapshot(loadOrders);
 });

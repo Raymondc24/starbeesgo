@@ -42,7 +42,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
     allFoodTypes = Array.from(foodTypesSet);
     renderFoodTypeOptions();
-    renderTable(flattenOrders(allOrders));
+    const allRows = flattenOrders(allOrders);
+    lastFilteredRows = allRows; // <-- Add this line
+    renderTable(allRows);
   }
 
   // Flatten orders: one row per food item

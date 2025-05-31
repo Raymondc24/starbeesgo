@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }))
             });
 
-            window.location.href = `Checkout_Index.html?userId=${userId}&stallId=${stallId}&orderId=${newOrderId}`;
+            window.location.href = `Checkout_Index.html?userId=${userId}&stallId=${stallId}&orderId=${newOrderId}&orderDate=${orderDate}`;
         }, 2000);
     };
 
