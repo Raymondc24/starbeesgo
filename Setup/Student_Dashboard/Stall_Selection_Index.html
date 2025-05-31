@@ -28,18 +28,23 @@
 </head>
 <body>
 
-  <img src="Logo.jpeg" alt="Logo" class="logo-icon" onclick="window.location.reload();"/>
+  <img src="https://i.ibb.co/DHMZtTrk/Logo.jpg" alt="Logo" class="logo-icon" onclick="window.location.reload();"/>
   <h1>Stall Selection</h1>
   <div class="stall-grid"></div>
 
   <!-- Cart Button -->
-  <button id="cartButton" class="cart-button" onclick="goToCartScreen()">
+  <button id="cartButton" class="cart-button">
     <img src="https://i.ibb.co/dJMCCzhx/cart-icon.png" alt="Cart" />
   </button>
 
   <button id="logoutButton" class="logout-btn">Logout</button>
 
   <div class="stall-container"></div>
+
+  <!-- Checkout Button -->
+  <button id="checkoutButton" class="checkout-button" onclick="goToCheckoutScreen()">
+    <img id="checkoutIcon" src="https://i.ibb.co/N69jm7Nj/spoon-and-fork.png" alt="Checkout" />
+  </button>
 
   <script src="Stall_Selection_Script.js"></script>
 </body>

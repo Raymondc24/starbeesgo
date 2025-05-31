@@ -16,7 +16,7 @@ auth.onAuthStateChanged(async (user) => {
                 // Redirect based on role
                 if (userData.role === "student") {
                     console.log("Redirecting to Student Dashboard...");
-                    window.location.href = "../Student_Dashboard/Stall_Selection_Index.html";
+                    window.location.href = `../Student_Dashboard/Stall_Selection_Index.html?userId=${userId}`;
                 } else if (userData.role === "stall_owner") {
                     console.log("Redirecting to Stall Owner Dashboard...");
                     window.location.href = `../Stall_Owner_Dashboard/Stall_Screen_Index.html?stallId=${userData.stallId}`;
@@ -53,7 +53,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
             // Redirect based on role
             if (userData.role === "student") {
                 console.log("Redirecting to Student Dashboard...");
-                window.location.href = "../Student_Dashboard/Stall_Selection_Index.html";
+                window.location.href = `../Student_Dashboard/Stall_Selection_Index.html?userId=${userId}`;
             } else if (userData.role === "stall_owner") {
                 console.log("Redirecting to Stall Owner Dashboard...");
                 window.location.href = `../Stall_Owner_Dashboard/Stall_Screen_Index.html?stallId=${userData.stallId}`;

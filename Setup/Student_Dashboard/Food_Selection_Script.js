@@ -242,7 +242,8 @@ async function saveCartToFirestore() {
         name: item.name,
         price: item.price,
         quantity: item.qty,
-        imageUrl: foodItem?.img || ''
+        imageUrl: foodItem?.img || '',
+        category: foodItem?.category || '' // <-- Add this line to save category
       });
     });
 
@@ -347,12 +348,20 @@ document.querySelectorAll('section').forEach(section => {
 
 // Basket button action
 document.getElementById('cartButton').addEventListener('click', async () => {
-  await saveCartToFirestore(); // Save cart to Firestore
-  window.location.href = `Cart_Index.html?stallId=${stallId}`; // Pass stallId!
+  if (currentUserId && stallId) {
+    await saveCartToFirestore(); // Save cart to Firestore
+    window.location.href = `Cart_Index.html?userId=${currentUserId}&stallId=${stallId}`;
+  } else {
+    console.error('User ID or Stall ID is not set.');
+  }
 });
 
 document.getElementById('backBtn').addEventListener('click', () => {
-  window.location.href = 'Stall_Selection_Index.html';
+  if (currentUserId) {
+    window.location.href = `Stall_Selection_Index.html?userId=${currentUserId}`;
+  } else {
+    console.error('User ID is not set.');
+  }
 });
 
 // Example: update basket quantity on Food Selection page

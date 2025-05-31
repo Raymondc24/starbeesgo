@@ -1,22 +1,43 @@
 document.addEventListener('DOMContentLoaded', function() {
   const urlParams = new URLSearchParams(window.location.search);
   const stallId = urlParams.get("stallId");
+  let currentUserId = null;
 
   let localCart = {};
 
+  // Fetch current user ID
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      currentUserId = user.uid;
+      loadCartItems();
+    }
+  });
+
   document.getElementById("backBtn").addEventListener("click", async () => {
-    await saveCartToFirestore();
-    window.location.href = `Food_Selection_Index.html?stallId=${stallId}`;
+    if (currentUserId && stallId) {
+      await saveCartToFirestore();
+      window.location.href = `Food_Selection_Index.html?userId=${currentUserId}&stallId=${stallId}`;
+    } else {
+      console.error('User ID or Stall ID is not set.');
+    }
   });
 
   document.getElementById('addItemsBtn').addEventListener('click', async () => {
-    await saveCartToFirestore();
-    window.location.href = `Food_Selection_Index.html?stallId=${stallId}`;
+    if (currentUserId && stallId) {
+      await saveCartToFirestore();
+      window.location.href = `Food_Selection_Index.html?userId=${currentUserId}&stallId=${stallId}`;
+    } else {
+      console.error('User ID or Stall ID is not set.');
+    }
   });
 
   document.getElementById("paymentBtn").addEventListener("click", async () => {
-    await saveCartToFirestore();
-    window.location.href = `Payment_Selection_Index.html?stallId=${stallId}`;
+    if (currentUserId && stallId) {
+      await saveCartToFirestore();
+      window.location.href = `Payment_Selection_Index.html?userId=${currentUserId}&stallId=${stallId}`;
+    } else {
+      console.error('User ID or Stall ID is not set.');
+    }
   });
 
   function updateCartSummary() {
@@ -156,12 +177,6 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById("stallName").textContent = "Stall";
     }
   }
-
-  firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      loadCartItems();
-    }
-  });
 
   // Call this after DOMContentLoaded
   setStallName();

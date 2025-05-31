@@ -156,13 +156,15 @@ paymentForm.addEventListener("submit", async (e) => {
         await db.collection("adminPaymentMethods").doc(editingId).update(data);
         editingId = null;
         submitBtn.textContent = "Add Payment Method";
+        await syncPaymentMethodIcons(); // <-- Auto sync after edit
     } else {
         await db.collection("adminPaymentMethods").add(data);
+        await syncPaymentMethodIcons(); // <-- Auto sync after add
     }
 
     paymentForm.reset();
     await renderCategoryList();
-    categoryInput.value = ""; // <-- This ensures the input is always blank
+    categoryInput.value = "";
     uploadedIconUrl = "";
     iconPreview.style.display = "none";
     removeIconBtn.style.display = "none";
@@ -206,3 +208,29 @@ removeIconBtn.addEventListener("click", () => {
 document.getElementById("backBtn").onclick = function() {
     window.location.href = "Admin_Main_Index.html";
 };
+
+// This function syncs iconUrl and name from adminPaymentMethods to all paymentMethods
+async function syncPaymentMethodIcons() {
+    const adminSnap = await db.collection("adminPaymentMethods").get();
+    const adminList = adminSnap.docs.map(doc => doc.data());
+
+    const paymentSnap = await db.collection("paymentMethods").get();
+    const batch = db.batch();
+
+    paymentSnap.forEach(doc => {
+        const data = doc.data();
+        // Find matching admin payment method
+        const adminPM = adminList.find(pm => pm.category === data.category && pm.name === data.name);
+        if (adminPM) {
+            // Copy all fields from adminPM except Firestore metadata
+            const updateData = {};
+            Object.keys(adminPM).forEach(key => {
+                updateData[key] = adminPM[key];
+            });
+            batch.update(doc.ref, updateData);
+        }
+    });
+
+    await batch.commit();
+    alert("Payment methods synced with all admin info!");
+}

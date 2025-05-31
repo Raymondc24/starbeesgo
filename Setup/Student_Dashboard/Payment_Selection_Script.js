@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const stallId = urlParams.get("stallId");
+    const userId = urlParams.get("userId");
 
     const paymentCategoryButtonsContainer = document.getElementById("paymentCategoryButtonsContainer");
     const paymentButtonsContainer = document.getElementById("paymentButtonsContainer");
@@ -82,7 +83,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     timer = setTimeout(() => {
         if (!paymentSelected) {
             alert("Payment unsuccessful. Time expired.");
-            window.location.href = "Stall_Selection_Index.html";
+            window.location.href = `Stall_Selection_Index.html?userId=${userId}`;
         }
     }, 3 * 60 * 1000);
 
@@ -94,7 +95,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             .get();
         if (snapshot.empty) return;
 
-        const categories = [...new Set(snapshot.docs.map(doc => doc.data().category))];
+        // Sort categories by name (ascending)
+        const categories = [...new Set(snapshot.docs.map(doc => doc.data().category))]
+            .sort((a, b) => a.localeCompare(b));
         categories.forEach(category => {
             const btn = document.createElement("button");
             btn.className = "payment-category-btn";
@@ -111,7 +114,15 @@ document.addEventListener("DOMContentLoaded", async () => {
             .where("stallId", "==", stallId)
             .where("category", "==", category)
             .get();
-        snapshot.forEach(doc => {
+
+        // Sort payment methods by name (ascending)
+        const sortedDocs = snapshot.docs.slice().sort((a, b) => {
+            const nameA = a.data().name || "";
+            const nameB = b.data().name || "";
+            return nameA.localeCompare(nameB);
+        });
+
+        sortedDocs.forEach(doc => {
             const data = doc.data();
             const button = document.createElement("button");
             button.classList.add("payment-btn");
@@ -146,21 +157,32 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             // 3. Add transaction with up-to-date orderId and orderDate
             await db.collection("transactions").add({
-                orderId: newOrderId,
-                stallId,
-                paymentMethod: paymentMethod.name,
-                amount: total,
+                orderId: newOrderId || "",
+                stallId: stallId || "",
+                paymentMethod: paymentMethod?.name || "",
+                amount: typeof total === "number" ? total : 0,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                orderDate: orderDate
+                orderDate: orderDate || "",
+                userId: userId || "",
+                status: "pending",
+                items: cartItems.map(item => ({
+                    name: item.name || "",
+                    quantity: typeof item.quantity === "number" ? item.quantity : 0,
+                    price: typeof item.price === "number" ? item.price : 0,
+                    totalPrice: typeof item.totalPrice === "number"
+                        ? item.totalPrice
+                        : (item.price && item.quantity ? item.price * item.quantity : 0),
+                    category: item.category || "" // <-- Add this line
+                }))
             });
 
-            window.location.href = `Checkout_Index.html?stallId=${stallId}`;
+            window.location.href = `Checkout_Index.html?userId=${userId}&stallId=${stallId}&orderId=${newOrderId}`;
         }, 2000);
     };
 
     // Back Button
     document.getElementById("backToCartBtn").addEventListener("click", () => {
-        window.location.href = `Cart_Index.html?stallId=${stallId}`;
+        window.location.href = `Cart_Index.html?userId=${userId}&stallId=${stallId}`;
     });
 
     // Initialize Page
@@ -175,7 +197,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     orderIdElement.textContent = orderId;
 
     async function getServerDate() {
-        const doc = await db.collection("serverTime").doc("now").set({ timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+        await db.collection("serverTime").doc("now").set({ timestamp: firebase.firestore.FieldValue.serverTimestamp() });
         const snap = await db.collection("serverTime").doc("now").get();
         const serverTimestamp = snap.data().timestamp.toDate();
         return serverTimestamp;

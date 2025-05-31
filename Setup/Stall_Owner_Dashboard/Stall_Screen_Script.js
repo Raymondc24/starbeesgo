@@ -66,6 +66,10 @@ document.getElementById("paymentMethodButton").addEventListener("click", () => {
   window.location.href = `Payment_Method_Index.html?stallId=${stallId}`;
 });
 
+document.getElementById("summaryButton").addEventListener("click", () => {
+  window.location.href = `Summary_Index.html?stallId=${stallId}`;
+});
+
 // Logout button
 document.getElementById("logoutButton").addEventListener("click", async () => {
   const user = firebase.auth().currentUser;

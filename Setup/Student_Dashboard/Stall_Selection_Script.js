@@ -1,14 +1,17 @@
-// Navigate to a specific stall's food selection page (for students)
-function goToStall(number) {
-  window.location.href = `Food_Selection_Index_${number}.html`;
+// --- Navigation Functions ---
+function goToStall(stallId, userId) {
+  window.location.href = `Food_Selection_Index.html?userId=${userId}&stallId=${stallId}`;
 }
 
-// Navigate to the cart screen
-function goToCartScreen() {
-  window.location.href = "Cart_Screen_Index.html";
+function goToCartScreen(userId) {
+  window.location.href = `Cart_Screen_Index.html?userId=${userId}`;
 }
 
-// Fetch and render only registered stalls for the student
+function goToCheckoutScreen(userId) {
+  window.location.href = `Checkout_Screen_Index.html?userId=${userId}`;
+}
+
+// --- Load Registered Stalls ---
 async function loadRegisteredStalls() {
   const stallContainer = document.querySelector(".stall-container");
   stallContainer.innerHTML = "";
@@ -55,7 +58,7 @@ async function loadRegisteredStalls() {
       stallDiv.title = "Stall is closed";
     } else {
       stallDiv.onclick = () => {
-        window.location.href = `Food_Selection_Index.html?stallId=${stallDoc.id}`;
+        goToStall(stallDoc.id, userId);
       };
     }
 
@@ -71,7 +74,63 @@ async function loadRegisteredStalls() {
   });
 }
 
-// On page load, after Firebase Auth is ready
+// --- Cart & Checkout Button State ---
+async function updateCartButtonState() {
+  const userId = firebase.auth().currentUser?.uid;
+  if (!userId) {
+    console.error("Error: User is not authenticated.");
+    return;
+  }
+
+  const cartButton = document.getElementById("cartButton");
+  const checkoutButton = document.getElementById("checkoutButton");
+  if (!cartButton) {
+    console.error("Error: cartButton element not found.");
+    return;
+  }
+  if (!checkoutButton) {
+    console.error("Error: checkoutButton element not found.");
+    return;
+  }
+
+  // --- Cart Button Logic ---
+  const cartSnapshot = await db.collection("cart")
+    .where("userId", "==", userId)
+    .where("quantity", ">", 0)
+    .get();
+
+  if (cartSnapshot.empty) {
+    cartButton.style.filter = "opacity(50%)";
+    cartButton.style.cursor = "not-allowed";
+    cartButton.disabled = true;
+  } else {
+    cartButton.style.filter = "opacity(100%)";
+    cartButton.style.cursor = "pointer";
+    cartButton.disabled = false;
+  }
+
+  // --- Checkout Button Logic ---
+  const orderSnapshot = await db.collection("transactions")
+    .where("userId", "==", userId)
+    .where("status", "!=", "received")
+    .limit(1)
+    .get();
+
+  if (orderSnapshot.empty) {
+    checkoutButton.style.filter = "opacity(50%)";
+    checkoutButton.style.cursor = "not-allowed";
+    checkoutButton.disabled = true;
+  } else {
+    checkoutButton.style.filter = "opacity(100%)";
+    checkoutButton.style.cursor = "pointer";
+    checkoutButton.disabled = false;
+  }
+
+  cartButton.onclick = () => goToCartScreen(userId);
+  checkoutButton.onclick = () => goToCheckoutScreen(userId);
+}
+
+// --- Auth State & Logout ---
 firebase.auth().onAuthStateChanged(async (user) => {
   if (user) {
     await loadRegisteredStalls();
@@ -86,34 +145,3 @@ document.getElementById('logoutButton').addEventListener('click', async () => {
   await auth.signOut();
   window.location.href = '../Login_or_Register/loginanim.html';
 });
-
-async function updateCartButtonState() {
-  const userId = firebase.auth().currentUser?.uid;
-  if (!userId) {
-    console.error("Error: User is not authenticated.");
-    return;
-  }
-
-  const cartSnapshot = await db.collection("cart")
-    .where("userId", "==", userId)
-    .where("quantity", ">", 0)
-    .get();
-
-  const cartButton = document.getElementById("cartButton");
-  if (!cartButton) {
-    console.error("Error: cartButton element not found.");
-    return;
-  }
-
-  if (cartSnapshot.empty) {
-    // Disable the cart button and reduce brightness
-    cartButton.style.filter = "opacity(50%)";
-    cartButton.style.cursor = "not-allowed";
-    cartButton.disabled = true;
-  } else {
-    // Enable the cart button and reset brightness
-    cartButton.style.filter = "opacity(100%)";
-    cartButton.style.cursor = "pointer";
-    cartButton.disabled = false;
-  }
-}
