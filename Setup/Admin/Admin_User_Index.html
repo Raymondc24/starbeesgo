@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDvPMK4D81brwvdaFzPEGywgX8sDJQdqNs",
+            authDomain: "starbeesgo.firebaseapp.com",
+            projectId: "starbeesgo",
+            storageBucket: "starbeesgo.firebasestorage.app",
+            messagingSenderId: "607023497912",
+            appId: "1:607023497912:web:92b66e069b6fc99d602a4d",
+            measurementId: "G-1B1DR66LQ5"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Information</title>
+    <link rel="stylesheet" href="Admin_User_Style.css" />
+</head>
+<body>
+    <button id="backBtn">←</button>
+    <div class="container">
+        <h1 class="main-title">User Information</h1>
+        <form id="userForm" class="vertical-form">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" placeholder="Full Name" required />
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Email" required />
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Password" />
+
+            <label for="role">Role:</label>
+            <select id="role" required>
+                <option value="student">Student</option>
+                <option value="stall_owner">Stall Owner</option>
+            </select>
+
+            <button type="submit">Create User</button>
+        </form>
+
+        <div class="toggle-buttons">
+            <button id="showStudentsButton">Show Students</button>
+            <button id="showStallOwnersButton">Show Stall Owners</button>
+        </div>
+
+        <div id="userTableWrapper">
+            <table id="userTable" class="hidden">
+                <thead>
+                    <tr id="tableHeader"></tr>
+                </thead>
+                <tbody id="userTableBody"></tbody>
+            </table>
+        </div>
+
+        <div id="assignStallsSection" style="margin-top:2rem; display:none;">
+            <h2>Assign Stalls to Student</h2>
+            <select id="studentSelect">
+                <option value="">Select Student</option>
+            </select>
+            <select id="stallSelect" multiple size="5" style="width:200px;">
+                <!-- Stall options will be loaded here -->
+            </select>
+            <button id="assignStallsBtn">Assign Selected Stalls</button>
+        </div>
+    </div>
+    <script src="Admin_User_Script.js"></script>
+</body>
+</html>

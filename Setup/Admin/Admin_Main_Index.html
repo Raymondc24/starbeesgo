@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+        apiKey: "AIzaSyDvPMK4D81brwvdaFzPEGywgX8sDJQdqNs",
+        authDomain: "starbeesgo.firebaseapp.com",
+        projectId: "starbeesgo",
+        storageBucket: "starbeesgo.firebasestorage.app",
+        messagingSenderId: "607023497912",
+        appId: "1:607023497912:web:92b66e069b6fc99d602a4d",
+        measurementId: "G-1B1DR66LQ5"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+    </script>  
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Main Panel</title>
+    <link rel="stylesheet" href="Admin_Main_Style.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Panel</h1>
+        <section class="admin-actions">
+            <button class="admin-action-btn" id="userInfoButton">
+                <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="User Info" />
+                User
+            </button>
+            <button class="admin-action-btn" id="paymentButton">
+                <img src="https://cdn-icons-png.flaticon.com/512/929/929426.png" alt="Payment" />
+                Payment
+            </button>
+        </section>
+    </div>
+    <script src="Admin_Main_Script.js"></script>
+</body>
+</html>
