@@ -35,18 +35,22 @@
     <section class="filter-section">
       <form id="filterForm">
         <div class="filter-row">
-          <label>
-            Year:<br>
+          <div class="filter-col">
+            <label for="filterYear">Year</label>
             <input type="number" id="filterYear" min="2000" max="2100" placeholder="YYYY">
-          </label>
-          <label>
-            Month:<br>
+          </div>
+          <div class="filter-col">
+            <label for="filterMonth">Month</label>
             <input type="number" id="filterMonth" min="1" max="12" placeholder="MM">
-          </label>
-          <label>
-            Date:<br>
-            <input type="date" id="filterDate">
-          </label>
+          </div>
+          <div class="filter-col">
+            <label for="filterStartDate">Start Date</label>
+            <input type="date" id="filterStartDate" name="filterStartDate">
+          </div>
+          <div class="filter-col">
+            <label for="filterEndDate">End Date</label>
+            <input type="date" id="filterEndDate" name="filterEndDate">
+          </div>
         </div>
         <div class="filter-row">
           <label style="flex:1;">

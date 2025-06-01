@@ -102,16 +102,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     let filtered = flattenOrders(allOrders);
     const year = document.getElementById("filterYear").value;
     const month = document.getElementById("filterMonth").value;
-    const date = document.getElementById("filterDate").value;
     const payment = paymentSelect.value;
     const foodType = foodTypeSelect.value;
     const foodName = foodNameSelect.value;
+    const startDate = document.getElementById("filterStartDate").value;
+    const endDate = document.getElementById("filterEndDate").value;
 
     filtered = filtered.filter(row => {
       let match = true;
       if (year) match = match && row.orderDate.startsWith(year);
       if (month) match = match && row.orderDate.slice(5,7) === month.padStart(2, "0");
-      if (date) match = match && row.orderDate === date;
+      // Date range filter
+      if (startDate && endDate) {
+        match = match && (row.orderDate >= startDate && row.orderDate <= endDate);
+      } else if (startDate) {
+        match = match && (row.orderDate === startDate);
+      } else if (!startDate && !endDate) {
+        // Default: show only today
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        const todayStr = `${yyyy}-${mm}-${dd}`;
+        match = match && (row.orderDate === todayStr);
+      }
       if (payment) match = match && row.paymentMethod === payment;
       if (foodType) match = match && row.foodType === foodType;
       if (foodName) match = match && row.foodName === foodName;
@@ -133,7 +147,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return 0;
     });
 
-    lastFilteredRows = filtered; // <--- store the filtered rows
+    lastFilteredRows = filtered;
     renderTable(filtered);
   }
 

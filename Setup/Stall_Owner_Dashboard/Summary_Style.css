@@ -54,13 +54,17 @@ body {
 
 .filter-row {
   display: flex;
-  gap: 24px;
-  margin-bottom: 16px;
+  gap: 1.5rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
 }
 
 .filter-row label {
   flex: 1;
-  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  margin-bottom: 0;
 }
 
 .filter-row.center {
@@ -178,4 +182,44 @@ tr:hover {
 th[data-sort="no"], th:first-child {
   cursor: default !important;
   user-select: none;
+}
+
+.filter-section .filter-row input[type="number"],
+.filter-section .filter-row input[type="date"] {
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* --- Only modify the first filter row --- */
+.filter-row:first-child {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.filter-row:first-child .filter-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-row:first-child label {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+@media (max-width: 900px) {
+  .filter-section .filter-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .filter-row:first-child {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }

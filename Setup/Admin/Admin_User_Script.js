@@ -4,6 +4,9 @@ const secondaryApp = firebase.initializeApp(firebaseConfig, "Secondary");
 // Global variable to track editing user ID
 let editingUserId = null;
 
+// Add global sort state
+let currentSort = { field: null, direction: 1 };
+
 // Create user
 document.getElementById("userForm").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -109,7 +112,7 @@ document.getElementById("userForm").addEventListener("submit", async (e) => {
   }
 });
 
-// Load users based on role
+// Update loadUsers function
 async function loadUsers(role) {
   const userTable = document.getElementById("userTable");
   const userTableBody = document.getElementById("userTableBody");
@@ -119,7 +122,7 @@ async function loadUsers(role) {
   userTableBody.innerHTML = "";
   tableHeader.innerHTML = "";
 
-  // Set table headers based on role
+  // Set table headers (no sort buttons)
   if (role === "student") {
     tableHeader.innerHTML = `
       <th>Full Name</th>
@@ -138,36 +141,101 @@ async function loadUsers(role) {
   }
 
   // Fetch users from Firestore
-  const usersSnapshot = await db.collection("users").where("role", "==", role).get();
+  let usersSnapshot = await db.collection("users").where("role", "==", role).get();
+  let users = [];
   usersSnapshot.forEach((doc) => {
-    const userData = doc.data();
-    const userRow = document.createElement("tr");
+    users.push({ id: doc.id, ...doc.data() });
+  });
 
-    if (role === "student") {
+  // Student: always sort by name ascending
+  if (role === "student") {
+    users.sort((a, b) => {
+      let valA = (a.name || "").toLowerCase();
+      let valB = (b.name || "").toLowerCase();
+      if (valA < valB) return -1;
+      if (valA > valB) return 1;
+      return 0;
+    });
+
+    users.forEach((userData) => {
+      const userRow = document.createElement("tr");
       userRow.innerHTML = `
         <td>${userData.name}</td>
         <td>${userData.email}</td>
         <td>${userData.role}</td>
         <td>
-          <button onclick="editUser('${doc.id}')">Edit</button>
-          <button onclick="removeUser('${doc.id}')">Remove</button>
+          <button onclick="editUser('${userData.id}')">Edit</button>
+          <button onclick="removeUser('${userData.id}')">Remove</button>
         </td>
       `;
-    } else if (role === "stall_owner") {
+      userTableBody.appendChild(userRow);
+    });
+  }
+
+  // Stall owner: manual arrangement (drag-and-drop)
+  if (role === "stall_owner") {
+    // Sort by order field first (default)
+    users.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+    users.forEach((userData, idx) => {
+      const userRow = document.createElement("tr");
+      userRow.setAttribute("draggable", "true");
+      userRow.dataset.index = idx;
+      userRow.dataset.userid = userData.id;
+
       userRow.innerHTML = `
         <td>${userData.name}</td>
         <td>${userData.email}</td>
         <td>${userData.role}</td>
         <td>${userData.stallId}</td>
         <td>
-          <button onclick="editUser('${doc.id}')">Edit</button>
-          <button onclick="removeUser('${doc.id}')">Remove</button>
+          <button onclick="editUser('${userData.id}')">Edit</button>
+          <button onclick="removeUser('${userData.id}')">Remove</button>
         </td>
       `;
-    }
 
-    userTableBody.appendChild(userRow);
-  });
+      // Drag events
+      userRow.ondragstart = (e) => {
+        e.dataTransfer.setData("text/plain", idx);
+        userRow.classList.add("dragging");
+      };
+      userRow.ondragend = () => {
+        userRow.classList.remove("dragging");
+      };
+      userRow.ondragover = (e) => {
+        e.preventDefault();
+        userRow.classList.add("drag-over");
+      };
+      userRow.ondragleave = () => {
+        userRow.classList.remove("drag-over");
+      };
+      userRow.ondrop = async (e) => {
+        e.preventDefault();
+        userRow.classList.remove("drag-over");
+        const fromIdx = parseInt(e.dataTransfer.getData("text/plain"));
+        const toIdx = idx;
+        if (fromIdx === toIdx) return;
+
+        // Reorder users array
+        const moved = users.splice(fromIdx, 1)[0];
+        users.splice(toIdx, 0, moved);
+
+        // Update order field in Firestore for all stall owners
+        const batch = db.batch();
+        users.forEach((u, i) => {
+          batch.update(db.collection("users").doc(u.id), { order: i });
+          // Also update the stall document for student dashboard sorting
+          if (u.stallId) {
+            batch.update(db.collection("stalls").doc(u.stallId), { order: i });
+          }
+        });
+        await batch.commit();
+        loadUsers("stall_owner"); // Refresh list
+      };
+
+      userTableBody.appendChild(userRow);
+    });
+  }
 
   // Show the table
   userTable.classList.remove("hidden");

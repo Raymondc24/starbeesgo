@@ -16,60 +16,25 @@ async function loadRegisteredStalls() {
   const stallContainer = document.querySelector(".stall-container");
   stallContainer.innerHTML = "";
 
-  // Get current user ID
-  const userId = firebase.auth().currentUser.uid;
-  console.log("Current user ID:", userId);
-
-  // Fetch student user document
-  const userDoc = await db.collection("users").doc(userId).get();
-  if (!userDoc.exists) {
-    console.log("User doc does not exist");
-    return;
-  }
-
-  // Assume registeredStalls is an array of stall IDs in the user document
-  const registeredStalls = userDoc.data().registeredStalls || [];
-  console.log("Registered stalls:", registeredStalls);
-
-  if (registeredStalls.length === 0) {
-    stallContainer.innerHTML = "<p>No registered stalls found.</p>";
-    return;
-  }
-
-  // Fetch all stall details in parallel
-  const stallPromises = registeredStalls.map(stallId =>
-    db.collection("stalls").doc(stallId).get()
-  );
-  const stallDocs = await Promise.all(stallPromises);
-
-  // Render each registered stall
-  stallDocs.forEach(stallDoc => {
-    if (!stallDoc.exists) {
-      console.log("Stall doc does not exist for ID:", stallDoc.id);
-      return;
-    }
-    const stallData = stallDoc.data();
+  const stallsSnap = await db.collection("stalls").orderBy("order").get();
+  stallsSnap.forEach(doc => {
+    const stall = doc.data();
     const stallDiv = document.createElement("div");
     stallDiv.className = "stall";
-
-    // Disable logic and design
-    if (!stallData.isOpen) {
-      stallDiv.classList.add("stall-disabled");
-      stallDiv.title = "Stall is closed";
-    } else {
-      stallDiv.onclick = () => {
-        goToStall(stallDoc.id, userId);
-      };
-    }
-
     stallDiv.innerHTML = `
-      <img src="${stallData.imageUrl}" alt="${stallData.name}" />
+      <img src="${stall.imageUrl}" />
       <div>
-        <strong>${stallData.name}</strong>
-        <div>Phone Number - ${stallData.phone || ''}</div>
-        ${!stallData.isOpen ? '<div class="closed-label">Closed</div>' : ''}
+        <strong>${stall.name}</strong>
+        <div>Phone Number - ${stall.phone || ''}</div>
+        ${!stall.isOpen ? '<div class="closed-label">Closed</div>' : ''}
       </div>
     `;
+    if (stall.isOpen) {
+      stallDiv.onclick = () => goToStall(doc.id, firebase.auth().currentUser.uid);
+    } else {
+      stallDiv.classList.add("stall-disabled");
+      stallDiv.title = "Stall is closed";
+    }
     stallContainer.appendChild(stallDiv);
   });
 }

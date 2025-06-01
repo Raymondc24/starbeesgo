@@ -6,7 +6,7 @@ body {
   text-align: center;
   background-color: #fffcf3;
   margin: 0;
-  padding: 2rem;
+  padding: 7.5rem 2rem 2rem 2rem; /* top padding = logo height + margin */
 }
 
 .logo-icon {
@@ -126,6 +126,64 @@ h1 {
   background: #bfae4b;
 }
 
+/* Fixed header row, centered like your content */
+.header-row {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  background: #fffcf3;
+  z-index: 200;
+  padding: 2rem 2rem 0 2rem; /* match your body side padding */
+  box-sizing: border-box;
+}
+
+/* Inner container to match your main content width and padding */
+.header-inner {
+  width: 100%;
+  max-width: 400px; /* Match your main container width */
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 2rem 0 0 0; /* Match your body padding-top */
+  box-sizing: border-box;
+}
+
+/* Logo group for logo and text, if needed */
+.logo-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Logo image */
+.logo-icon {
+  width: 150px;
+  height: 100px;
+  cursor: pointer;
+  display: block;
+}
+
+/* Logout button style */
+.logout-btn {
+  background: #e7c96f;
+  color: #222;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 10px;
+}
+.logout-btn:hover {
+  background: #ffe082;
+}
+
 .stall-disabled {
   pointer-events: none;
   opacity: 0.5;
@@ -165,4 +223,13 @@ h1 {
 .checkout-button img {
   width: 36px;
   height: 36px;
+}
+
+/* Prevent content from hiding under the fixed header */
+body {
+  font-family: 'Mukta' , sans-serif;
+  text-align: center;
+  background-color: #fffcf3;
+  margin: 0;
+  padding: 7.5rem 2rem 2rem 2rem; /* top padding = header height + margin */
 }
