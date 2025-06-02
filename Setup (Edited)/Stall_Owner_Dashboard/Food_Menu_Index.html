@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Firebase App (Compat) -->
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
+  <!-- Firebase Analytics (Optional) -->
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics-compat.js"></script>
+  <!-- Firebase Firestore (Compat) -->
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
+  <!-- Firebase Storage (for image uploads) -->
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-storage-compat.js"></script>
+  
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDvPMK4D81brwvdaFzPEGywgX8sDJQdqNs",
+      authDomain: "starbeesgo.firebaseapp.com",
+      projectId: "starbeesgo",
+      storageBucket: "starbeesgo.firebasestorage.app",
+      messagingSenderId: "607023497912",
+      appId: "1:607023497912:web:92b66e069b6fc99d602a4d",
+      measurementId: "G-1B1DR66LQ5"
+    };
+  
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics(); // optional
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stall Owner Dashboard</title>
+  <link rel="stylesheet" href="Food_Menu_Style.css" />
+</head>
+<body>
+  <header>
+    <button id="backBtn" class="arrow-btn">←</button>
+    <h1>Food Management</h1>
+  </header>
+
+  <section class="form-section">
+    <h2 id="formHeading">Add New Food</h2>
+    <form id="foodForm">
+      <input type="text" id="foodName" placeholder="Food Name" required />
+
+      <input list="categoryList" id="foodCategory" placeholder="Category" required />
+      <datalist id="categoryList"></datalist>
+
+      <input type="number" id="foodPrice" placeholder="Price (e.g. 10.50)" step="0.10" required />
+
+      <div class="image-input">
+        <button type="button" id="chooseImageBtn">Choose Image…</button>
+        <input type="file" id="foodImageInput" accept="image/*" hidden />
+        <button type="button" id="removeImageBtn" hidden>Remove</button>
+      </div>
+      <div id="previewContainer"><img id="imagePreview" hidden /></div>
+
+      <button type="submit">Add Food</button>
+    </form>
+  </section>
+
+  <section class="list-section">
+    <h2>My Food List</h2>
+    <table id="foodTable">
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Image</th>
+          <th onclick="setSort('name')" style="cursor: pointer;">Name</th>
+          <th onclick="setSort('category')" style="cursor: pointer;">Category</th>
+          <th onclick="setSort('price')" style="cursor: pointer;">Price</th>
+          <th onclick="setSort('available')" style="cursor: pointer;">Availability</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <script src="Food_Menu_Script.js"></script>
+</body>
+</html>

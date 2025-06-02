@@ -1,0 +1,118 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f6f7fb;
+  margin: 0;
+}
+
+.order-list-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 32px 0 32px;
+}
+
+.order-list-header h1 {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+}
+
+.arrow-btn {
+  background: #fff;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  font-size: 1.2em;
+  padding: 4px 14px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.arrow-btn:hover {
+  background: #f0f0f0;
+  box-shadow: 0 2px 6px #0001;
+}
+
+.order-list-main {
+  max-width: 900px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+
+section {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  margin-bottom: 32px;
+  padding: 24px 32px;
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 1.3em;
+  color: #333;
+}
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 16px;
+}
+
+.order-block {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 18px 20px;
+  box-shadow: 0 1px 4px #0001;
+}
+
+.order-info {
+  flex: 1;
+}
+
+.order-id {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.food-list {
+  margin: 0;
+  padding-left: 18px;
+  color: #444;
+}
+
+.order-action-btn {
+  background: #43a047;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: 18px;
+}
+.order-action-btn:hover {
+  background: #388e3c;
+}
+
+.row-layout {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.order-section {
+  flex: 1 1 0;
+  min-width: 320px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 24px 32px;
+  margin-bottom: 0;
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDvPMK4D81brwvdaFzPEGywgX8sDJQdqNs",
+            authDomain: "starbeesgo.firebaseapp.com",
+            projectId: "starbeesgo",
+            storageBucket: "starbeesgo.firebasestorage.app",
+            messagingSenderId: "607023497912",
+            appId: "1:607023497912:web:92b66e069b6fc99d602a4d",
+            measurementId: "G-1B1DR66LQ5"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Payment Methods</title>
+    <link rel="stylesheet" href="Admin_Payment_Style.css" />
+</head>
+<body>
+    <button id="backBtn">←</button>
+    <div class="container">
+        <h1 class="main-title">Payment Information</h1>
+        <form id="paymentForm" class="vertical-form">
+            <label for="categoryInput">Category:</label>
+            <input type="text" id="categoryInput" list="categoryList" placeholder="Enter or select category" required />
+            <datalist id="categoryList"></datalist>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Payment Name" required />
+
+            <label for="iconFileInput">Icon:</label>
+            <input type="file" id="iconFileInput" accept="image/*" />
+            <button type="button" id="removeIconBtn" style="display:none;">Remove Icon</button>
+            <img id="iconPreview" src="" alt="Icon Preview" style="display:none;max-width:40px;vertical-align:middle;">
+
+            <button type="submit" id="submitBtn">Add Payment Method</button>
+        </form>
+        <div id="categoryButtons" class="toggle-buttons"></div>
+        <div id="paymentListWrapper">
+            <table id="paymentTable" class="hidden">
+                <thead>
+                    <tr>
+                        <th>Icon</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="paymentTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="Admin_Payment_Script.js"></script>
+</body>
+</html>
