@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
+  <script>
+      const firebaseConfig = {
+          apiKey: "AIzaSyDvPMK4D81brwvdaFzPEGywgX8sDJQdqNs",
+          authDomain: "starbeesgo.firebaseapp.com",
+          projectId: "starbeesgo",
+          storageBucket: "starbeesgo.firebasestorage.app",
+          messagingSenderId: "607023497912",
+          appId: "1:607023497912:web:92b66e069b6fc99d602a4d",
+          measurementId: "G-1B1DR66LQ5"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Cart</title>
+  <link rel="stylesheet" href="Cart_Screen_Style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="cart-header">
+    <button id="backButton">←</button>
+    <h1>My Cart</h1>
+    <button id="manageButton">Manage</button>
+  </header>
+
+  <!-- Cart Body -->
+  <div id="cartBody" class="cart-body">
+    <!-- Rows will be dynamically added here -->
+    <div class="cart-stall-block">
+      <div class="cart-item-row">
+        <span class="item-name">Item Name</span>
+        <span class="item-qty">x2</span>
+      </div>
+      <!-- more .cart-item-row ... -->
+    </div>
+  </div>
+
+  <!-- Footer (only visible in manage mode) -->
+  <footer id="cartFooter" class="cart-footer hidden">
+    <label>
+      <input type="checkbox" id="selectAllCheckbox" />
+      Select All
+    </label>
+    <button id="removeSelectedButton">Remove</button>
+  </footer>
+
+  <script src="Cart_Screen_Script.js"></script>
+</body>
+</html>

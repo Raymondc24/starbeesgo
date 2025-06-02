@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDvPMK4D81brwvdaFzPEGywgX8sDJQdqNs",
+            authDomain: "starbeesgo.firebaseapp.com",
+            projectId: "starbeesgo",
+            storageBucket: "starbeesgo.firebasestorage.app",
+            messagingSenderId: "607023497912",
+            appId: "1:607023497912:web:92b66e069b6fc99d602a4d",
+            measurementId: "G-1B1DR66LQ5"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+    </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart Panel</title>
+  <link rel="stylesheet" href="Cart_Style.css" />
+</head>
+
+<body>
+
+  <!-- Back Button in Header -->
+  <header class="merged-header">
+    <button id="backBtn">←</button>
+    <span id="stallName" class="stall-name"></span>
+  </header>
+
+  <div class="cart-container">
+    <!-- Add Items Button -->
+    <div class="cart-header">
+      <h3>Order Summary</h3>
+      <button id="addItemsBtn">Add Items</button>
+    </div>
+
+    <div class="cart-items" id="cartItemsList"></div>
+
+    <div class="subtotal-section">
+      <p><strong>Subtotal (Incl. Tax): </strong><span id="subtotalAmount">RM0.00</span></p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="total-amount">
+      <strong>Total:</strong> <span id="totalAmount">RM0.00</span>
+    </div>
+    <button class="payment-btn" id="paymentBtn">Checkout</button>
+  </footer>
+
+  <script src="Cart_Script.js"></script>
+
+</body>
+</html>
