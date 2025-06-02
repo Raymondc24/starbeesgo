@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
+  <script>
+      const firebaseConfig = {
+          apiKey: "AIzaSyDvPMK4D81brwvdaFzPEGywgX8sDJQdqNs",
+          authDomain: "starbeesgo.firebaseapp.com",
+          projectId: "starbeesgo",
+          storageBucket: "starbeesgo.firebasestorage.app",
+          messagingSenderId: "607023497912",
+          appId: "1:607023497912:web:92b66e069b6fc99d602a4d",
+          measurementId: "G-1B1DR66LQ5"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+  </script>
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stall Selection</title>
+  <link rel="stylesheet" href="Stall_Selection_Style.css">
+</head>
+<body>
+
+  <div class="header-row">
+  <img src="https://i.ibb.co/DHMZtTrk/Logo.jpg" alt="Logo" class="logo-icon" onclick="window.location.reload()">
+  <button id="logoutButton" class="logout-btn">Logout</button>
+  </div>
+
+  <h1>Stall Selection</h1>
+  <div class="stall-grid"></div>
+
+  <!-- Cart Button -->
+  <button id="cartButton" class="cart-button">
+    <img src="https://i.ibb.co/dJMCCzhx/cart-icon.png" alt="Cart" />
+  </button>
+
+  <div class="stall-container"></div>
+
+  <!-- Checkout Button -->
+  <button id="checkoutButton" class="checkout-button" onclick="goToCheckoutScreen()">
+    <img id="checkoutIcon" src="https://i.ibb.co/N69jm7Nj/spoon-and-fork.png" alt="Checkout" />
+  </button>
+
+  <script src="Stall_Selection_Script.js"></script>
+</body>
+</html>
