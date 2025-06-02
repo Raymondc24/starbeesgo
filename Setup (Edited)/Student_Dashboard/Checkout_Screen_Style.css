@@ -134,7 +134,7 @@ body {
 
   .checkout-order-block {
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center; /* Changed from flex-start to center */
     margin: 16px 6px 0 6px;
     padding: 12px 8px;
     border-radius: 8px;

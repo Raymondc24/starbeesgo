@@ -374,23 +374,27 @@ footer {
   }
 
   header .filter-row {
-    flex-direction: column;
+    display: flex;
+    flex-direction: row;      /* <-- Keep this */
     align-items: stretch;
     gap: 0.5em;
-    padding: 0.5em 0.5em 0.5em 0.5em;
+    padding: 0.5em;
+    flex-wrap: wrap;
   }
   header .categories,
   header .search-bar,
   header .sorting {
-    width: 100%;
-    max-width: none;      /* Allow full width */
-    margin: 0.15em 0;     /* Small vertical margin */
-    flex: none;
+    width: auto;
+    max-width: 100%;      /* Allow full width */
+    margin: 0;     /* Small vertical margin */
+    flex: 1 1 0;
+    display: block !important;
   }
   header .categories select,
   header .sorting select,
   header .search-bar input {
     width: 100%;
+    min-width: 80px;
     font-size: 1em;
     padding: 0.45em 0.8em;
     border-radius: 14px;
@@ -412,10 +416,6 @@ footer {
     margin-left: 0.3em;
     font-size: 1em;
     padding: 0;
-  }
-  header .categories,
-  header .sorting {
-    display: none !important;
   }
   header .search-bar {
     width: 100%;

@@ -53,8 +53,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const cartItemsList = document.getElementById('cartItemsList');
     cartItemsList.innerHTML = '';
     const sortedItems = Object.values(localCart).sort((a, b) => {
+      // Sort by category first, then by name
       if (a.category < b.category) return -1;
       if (a.category > b.category) return 1;
+      // If category is the same, sort by name
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
       return 0;
     });
 

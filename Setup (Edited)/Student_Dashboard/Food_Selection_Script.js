@@ -4,6 +4,7 @@ let cart = {};
 let sortOption = 'name';
 let sortDirection = 'asc';
 let currentUserId = null;
+let userClickedDropdown = false; // Add this new flag
 
 // DOM references
 const categoryDropdown = document.getElementById('categoryDropdown');
@@ -25,7 +26,13 @@ firebase.auth().onAuthStateChanged(async user => {
 
     // Attach event listeners here if needed
     categoryDropdown.addEventListener('change', () => {
+      userClickedDropdown = true; // Set flag on manual dropdown change
       scrollToCategory(categoryDropdown.value);
+      // Reset the flag after a delay to allow smooth scroll to proceed
+      // without the observer immediately overriding the dropdown.
+      setTimeout(() => {
+        userClickedDropdown = false;
+      }, 800); // Adjust this delay if needed (e.g., based on smooth scroll duration)
     });
 
     sortDropdown.addEventListener('change', () => {
@@ -54,7 +61,8 @@ async function loadCartFromFirestore() {
         qty: item.quantity,
         price: item.price,
         name: item.name,
-        imageUrl: item.imageUrl || ''
+        imageUrl: item.imageUrl || '',
+        category: item.category || '' // <-- Add this line
       };
     });
     updateCartSummary();
@@ -311,6 +319,13 @@ const observerOptions = {
 let currentlyVisibleCategory = null;
 
 const sectionObserver = new IntersectionObserver((entries) => {
+  if (userClickedDropdown) {
+    // If the scroll was initiated by a user's click on the dropdown,
+    // do not let the observer change the dropdown value during this specific scroll.
+    // The dropdown already reflects the user's intended selection.
+    return;
+  }
+
   let topMostEntry = null;
 
   entries.forEach(entry => {
@@ -328,23 +343,32 @@ const sectionObserver = new IntersectionObserver((entries) => {
     // Update the dropdown only when the category changes
     if (currentlyVisibleCategory !== newCategory) {
       currentlyVisibleCategory = newCategory;
-      categoryDropdown.value = newCategory;
-      console.log(`Category changed to: ${newCategory}`); // Debugging
+      // Only update the dropdown's value if it's actually different
+      // to prevent triggering an unnecessary 'change' event.
+      if (categoryDropdown.value !== newCategory) {
+        categoryDropdown.value = newCategory;
+      }
+      // console.log(`Category changed to: ${newCategory}`); // Debugging
     }
   }
 }, observerOptions);
 
 // Attach the observer to all category sections
 function attachObserver() {
-  document.querySelectorAll('section').forEach(section => {
+  document.querySelectorAll('section[data-category]').forEach(section => { // Ensure observing sections with data-category
     sectionObserver.observe(section);
   });
 }
 
+// REMOVE or COMMENT OUT the following lines:
+// This block incorrectly tries to observe h2 elements with an observer
+// that expects data-category on the target element itself.
+/*
 // Attach the observer to all category headings
 document.querySelectorAll('section').forEach(section => {
   sectionObserver.observe(section.querySelector('h2'));
 });
+*/
 
 // Basket button action
 document.getElementById('cartButton').addEventListener('click', async () => {

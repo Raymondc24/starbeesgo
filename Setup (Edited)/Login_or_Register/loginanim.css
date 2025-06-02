@@ -16,8 +16,8 @@ body {
     position: fixed;
     top: 20px;
     left: 20px;
-    width: 90px;
-    height: 60px;
+    width: 140px;
+    height: 90px;
     cursor: pointer;
     z-index: 1000; /* Increased to ensure it stays on top */
     /* Remove transition as it's not needed for fixed positioning */
