@@ -208,8 +208,8 @@ input[type="email"] {
     }
     
     .logo-icon {
-        width: 90px;
-        height: 60px;
+        width: 160px;   /* Increased size */
+        height: 100px;  /* Increased size */
         top: 10px;
         left: 10px;
     }
@@ -305,5 +305,12 @@ input[type="email"] {
 
   .stall-number {
     font-size: 16px;
+  }
+
+  .logo-icon {
+    width: 130px !important;
+    height: 90px !important;
+    top: 10px !important;
+    left: 10px !important;
   }
 }
