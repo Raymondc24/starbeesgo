@@ -1,0 +1,254 @@
+@import url('https://fonts.googleapis.com/css?family=Mukta');
+
+body {
+  font-family: 'Mukta', sans-serif;
+  text-align: center;
+  background-color: #fffcf3;
+  margin: 0;
+  padding: 6rem 2rem 2rem; /* Adjusted top padding for fixed header */
+}
+
+/* Fixed Header Styles */
+.header-row {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fffcf3;
+  z-index: 200;
+  padding: 1rem 2rem;
+  box-sizing: border-box;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.logo-icon {
+  width: 140px;
+  height: 90px;
+  cursor: pointer;
+}
+
+.logout-btn {
+  background: #e7c96f;
+  color: #222;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.logout-btn:hover {
+  background: #ffe082;
+}
+
+/* Content Styles */
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #335819;
+}
+
+.stall-container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.stall {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+}
+
+.stall:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.stall img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  object-position: center 43%;
+}
+
+.stall-name {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 0rem;
+  color: #335819;
+}
+
+.stall-number {
+  font-size: 20px;
+  color: #171717;
+}
+
+/* Button Styles */
+.cart-button {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: #e0c96b;
+  border: none;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.cart-button:hover {
+  background: #bfae4b;
+}
+.cart-button img {
+  width: 36px;
+  height: 36px;
+}
+
+.checkout-button {
+  position: fixed;
+  bottom: 32px;
+  left: 32px;
+  background: #e0c96b;
+  border: none;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.checkout-button:hover {
+  background: #bfae4b;
+}
+.checkout-button img {
+  width: 36px;
+  height: 36px;
+}
+
+/* Stall Status Styles */
+.stall-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  filter: grayscale(70%);
+  cursor: not-allowed;
+  border: 2px solid #d32f2f !important;
+  position: relative;
+}
+
+.closed-label {
+  color: #d32f2f;
+  font-weight: bold;
+  margin-top: 6px;
+  font-size: 1em;
+}
+
+/* Add these media queries at the end of your existing CSS */
+
+/* For tablets and smaller desktops */
+@media (max-width: 1024px) {
+  .stall-container {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+/* For mobile devices */
+@media (max-width: 768px) {
+  body {
+    padding: 5rem 1rem 1rem; /* Reduced padding for mobile */
+  }
+
+  .header-row {
+    padding: 1rem 2rem; /* Smaller header on mobile */
+  }
+
+  .logo-icon {
+    width: 100px;
+    height: 70px;
+  }
+
+  .logout-btn {
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stall-container {
+    grid-template-columns: 1fr; /* Single column on mobile */
+    gap: 1rem;
+    padding: 0;
+  }
+
+  .stall {
+    max-width: 100%;
+  }
+
+  .stall img {
+    height: 140px;
+  }
+
+  .stall-name {
+    font-size: 1.1rem;
+  }
+
+  .stall-number {
+    font-size: 18px;
+  }
+
+  /* Adjust fixed buttons for mobile */
+  .cart-button, 
+  .checkout-button {
+    width: 56px;
+    height: 56px;
+    bottom: 20px;
+  }
+  
+  .cart-button {
+    right: 20px;
+  }
+  
+  .checkout-button {
+    left: 20px;
+  }
+}
+
+/* For very small mobile devices */
+@media (max-width: 480px) {
+  body {
+    padding: 4.5rem 0.5rem 0.5rem;
+  }
+
+  .stall img {
+    height: 120px;
+  }
+
+  .stall-name {
+    font-size: 1rem;
+  }
+
+  .stall-number {
+    font-size: 16px;
+  }
+}

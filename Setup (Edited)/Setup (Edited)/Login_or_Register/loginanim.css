@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css?family=Mukta');
+
+body {
+    font-family: 'Mukta', sans-serif, Arial, sans-serif;
+    height: 100vh;
+    min-height: 550px;
+    background-color: #fffcf3;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    /* Add this to create a stable positioning context */
+    position: relative;
+}
+
+.logo-icon {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 140px;
+    height: 90px;
+    cursor: pointer;
+    z-index: 1000; /* Increased to ensure it stays on top */
+    /* Remove transition as it's not needed for fixed positioning */
+    margin: 0;
+    pointer-events: auto;
+    /* Prevent any transform effects from parent elements */
+    transform: none !important;
+}
+
+.login-reg-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    height: calc(100vh - 40px);
+    min-height: 500px;
+    /* Ensure this doesn't affect fixed logo */
+    position: static;
+    transform: none;
+}
+
+.panel-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    height: 500px;
+    background-color: rgba(220, 160, 69, 0.9);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    /* Remove transition as it might affect fixed elements */
+}
+
+.register-info-box {
+    width: 40%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    color: #335819;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+    background-color: rgba(220, 160, 69, 0.9);
+}
+
+.black-panel {
+    background-color: rgba(30, 30, 30, 1);
+    width: 60%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.login-show {
+    padding: 40px;
+    color: #ffffff;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-show h2 {
+    margin-bottom: 30px;
+    color: #fff;
+}
+
+.login-show input[type="text"],
+.login-show input[type="password"] {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #335819;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgb(255, 255, 255);
+    box-sizing: border-box;
+    transition: all 0.3s;
+}
+
+input[type="email"] {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #335819;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgb(255, 255, 255);
+    box-sizing: border-box;
+    transition: all 0.3s;
+}
+
+.login-show input[type="text"]:focus,
+.login-show input[type="password"]:focus {
+    border-color: #fffcf3;
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+}
+
+.login-show input[type="submit"] {
+    max-width: 150px;
+    width: 100%;
+    background: #335819;
+    color: #f9f9f9;
+    border: none;
+    padding: 12px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-end;
+    transition: all 0.3s;
+}
+
+.login-show input[type="submit"]:hover {
+    background: #ededed;
+    color: #335819;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .panel-container {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .register-info-box {
+        width: 100%;
+        min-height: 250px;
+        padding: 30px 20px;
+        order: 1;
+        text-align: left;
+        align-items: center;
+    }
+    
+    .black-panel {
+        width: 100%;
+        min-height: 400px;
+        order: 2;
+        flex-grow: 1;
+    }
+    
+    .login-show {
+        padding: 30px 20px;
+        justify-content: flex-start;
+    }
+    
+    .logo-icon {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-reg-panel {
+        padding: 10px;
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .panel-container {
+        height: auto;
+    }
+    
+    .register-info-box {
+        min-height: 200px;
+        padding: 20px;
+    }
+    
+    .black-panel {
+        min-height: 450px;
+    }
+    
+    .login-show input[type="button"] {
+        width: 100%;
+        max-width: none;
+        margin-top: 20px;
+    }
+    
+    .logo-icon {
+        width: 90px;
+        height: 60px;
+        top: 10px;
+        left: 10px;
+    }
+}
+
+/* Add these media queries at the end of your existing CSS */
+
+/* For tablets and smaller desktops */
+@media (max-width: 1024px) {
+  .stall-container {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+/* For mobile devices */
+@media (max-width: 768px) {
+  body {
+    padding: 5rem 1rem 1rem; /* Reduced padding for mobile */
+  }
+
+  .header-row {
+    padding: 0.5rem 1rem; /* Smaller header on mobile */
+  }
+
+  .logo-icon {
+    width: 70px;
+    height: 50px;
+  }
+
+  .logout-btn {
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stall-container {
+    grid-template-columns: 1fr; /* Single column on mobile */
+    gap: 1rem;
+    padding: 0;
+  }
+
+  .stall {
+    max-width: 100%;
+  }
+
+  .stall img {
+    height: 140px;
+  }
+
+  .stall-name {
+    font-size: 1.1rem;
+  }
+
+  .stall-number {
+    font-size: 18px;
+  }
+
+  /* Adjust fixed buttons for mobile */
+  .cart-button, 
+  .checkout-button {
+    width: 56px;
+    height: 56px;
+    bottom: 20px;
+  }
+  
+  .cart-button {
+    right: 20px;
+  }
+  
+  .checkout-button {
+    left: 20px;
+  }
+}
+
+/* For very small mobile devices */
+@media (max-width: 480px) {
+  body {
+    padding: 4.5rem 0.5rem 0.5rem;
+  }
+
+  .stall img {
+    height: 120px;
+  }
+
+  .stall-name {
+    font-size: 1rem;
+  }
+
+  .stall-number {
+    font-size: 16px;
+  }
+}

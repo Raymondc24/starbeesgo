@@ -1,0 +1,77 @@
+body {
+  font-family: 'Mukta', sans-serif;
+  background: #fffdf3;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+h1 {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+form#profileForm {
+  max-width: 400px;
+  margin: 30px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 2rem 2rem 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+label {
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+input[type="text"], input[type="tel"] {
+  padding: 0.6rem;
+  border: 1.5px solid #e0c96b;
+  border-radius: 7px;
+  font-size: 1rem;
+}
+input[type="file"] {
+  margin-top: 0.5rem;
+}
+.image-preview {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+.image-preview img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e0c96b;
+  background: #fff;
+}
+button[type="submit"] {
+  margin-top: 1.5rem;
+  padding: 0.7rem;
+  background: #e0c96b;
+  color: #222;
+  border: none;
+  border-radius: 7px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button[type="submit"]:hover {
+  background: #bfae4b;
+}
+.back-btn {
+  position: absolute;
+  top: 22px;
+  left: 28px;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #bfae4b;
+  cursor: pointer;
+  z-index: 10;
+}
