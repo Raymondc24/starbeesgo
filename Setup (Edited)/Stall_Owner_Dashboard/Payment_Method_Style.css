@@ -1,7 +1,7 @@
 /* General page styles */
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
-    background: #fffdf3;
+    background: #f8f9fa;
     margin: 0;
     padding: 0;
 }
@@ -16,11 +16,6 @@ body {
     padding: 32px 24px;
 }
 
-h1 {
-    color: #335819;
-    margin-bottom: 24px;
-}
-
 /* Center the category buttons */
 #categoryButtons {
     display: flex;
@@ -31,9 +26,9 @@ h1 {
 
 /* Category buttons */
 .category-btn {
-    background: #335819;
+    background: #e9ecef;
     border: none;
-    color: #fff;
+    color: #333;
     padding: 10px 22px;
     margin: 0 6px 12px 0;
     border-radius: 6px;
@@ -43,9 +38,8 @@ h1 {
 }
 .category-btn.active,
 .category-btn:hover {
-    background:#e0c96b;
-    color: #333;
-    box-shadow: 0 2px 6px #335819;
+    background: #007bff;
+    color: #fff;
 }
 
 /* Payment methods list */
@@ -133,7 +127,7 @@ h1 {
     background: #fff;
 }
 #addPaymentForm button[type="submit"] {
-    background: #335819;
+    background: #007bff;
     color: #fff;
     border: none;
     padding: 10px 24px;
@@ -144,8 +138,7 @@ h1 {
     transition: background 0.2s;
 }
 #addPaymentForm button[type="submit"]:hover {
-    background:#333;
-    box-shadow:#335819;
+    background: #0056b3;
 }
 
 /* Icon preview and remove button */
@@ -176,7 +169,7 @@ h1 {
 
 /* Back button */
 #backBtn {
-    background: #335819;
+    background: #6c757d;
     color: #fff;
     border: none;
     padding: 8px 20px;
@@ -184,66 +177,8 @@ h1 {
     cursor: pointer;
     font-size: 15px;
     margin-top: 18px;
-    margin-left: 18px;
     transition: background 0.2s;
 }
 #backBtn:hover {
-    background: #fff;
-    color: #333;
-    box-shadow: 0 2px 6px #335819;
-}
-
-@media (max-width: 900px) {
-    h1 {
-        font-size: 1.6em;
-        justify-content: center;
-        padding-left: 50px;
-    }
-      /* Payment option card adjustments */
-    .payment-option {
-    width: 100%; /* Full width on mobile */
-    min-height: auto; /* Remove fixed height */
-    padding: 16px 12px; /* Adjust padding */
-    flex-direction: row; /* Horizontal layout */
-    justify-content: space-between; /* Space out items */
-    align-items: center; /* Center vertically */
-  }
-
-  /* Payment text styling */
-    .payment-option span {
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden; /* Hide overflow */
-    text-overflow: ellipsis; /* Add ... if text is too long */
-    flex: 1; /* Take available space */
-    padding: 0 12px; /* Add some spacing */
-    text-align: left; /* Align text to left */
-    font-size: 0.95rem; /* Slightly smaller font */
-  }
-
-  /* Button adjustments */
-    .select-payment-btn {
-    flex-shrink: 0; /* Prevent button from shrinking */
-    padding: 8px 12px; /* Adjust padding */
-    font-size: 0.9rem; /* Slightly smaller font */
-  }
-
-  /* Image adjustments */
-    .payment-option img {
-    height: 30px; /* Smaller image */
-    margin: 0; /* Remove auto margins */
-    flex-shrink: 0; /* Prevent image from shrinking */
-  }
-
-  #categoryButtons {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 6px;
-  }
-  
-  .category-btn {
-    white-space: nowrap;
-    padding: 8px 12px;
-    font-size: 0.85rem;
-    margin: 0;
-  }
+    background: #343a40;
 }

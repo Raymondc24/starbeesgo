@@ -7,7 +7,6 @@ body {
 }
 h1 {
   text-align: center;
-  color:#335819;
   margin-top: 30px;
   margin-bottom: 20px;
   font-size: 2rem;
@@ -72,52 +71,7 @@ button[type="submit"]:hover {
   border: none;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #335819;
+  color: #bfae4b;
   cursor: pointer;
   z-index: 10;
-}
-@media (max-width: 600px) {
-  h1 {
-    font-size: 1.3rem;
-    padding-right: 50px;
-    margin-top: 18px;
-    margin-bottom: 14px;
-    text-align: center;
-    position: relative;
-    padding-left: 60px;
-    display: block;
-  }
-
-  form#profileForm {
-    max-width: 98vw;
-    padding: 1.2rem 0.7rem 1rem 0.7rem;
-    margin: 18px auto;
-    border-radius: 10px;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
-    gap: 0.7rem;
-  }
-
-  input[type="text"], input[type="tel"] {
-    font-size: 0.98rem;
-    padding: 0.5rem;
-  }
-
-  .image-preview img {
-    width: 60px;
-    height: 60px;
-  }
-
-  button[type="submit"] {
-    font-size: 1rem;
-    padding: 0.6rem;
-    margin-top: 1rem;
-  }
-
-  .back-btn {
-    position: absolute;
-    top: 18px;
-    left: 16px;
-    font-size: 1rem;
-    z-index: 10;
-  }
 }
