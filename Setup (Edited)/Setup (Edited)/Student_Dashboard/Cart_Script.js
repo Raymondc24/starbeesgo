@@ -159,6 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
           ...item,
           userId: user.uid,
           stallId: stallId,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp() // Add this line
         });
       });
 

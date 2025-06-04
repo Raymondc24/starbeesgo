@@ -202,4 +202,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         const serverTimestamp = snap.data().timestamp.toDate();
         return serverTimestamp;
     }
+
+    // After successful payment/order creation:
+    async function clearCart() {
+        const user = firebase.auth().currentUser;
+        if (!user || !stallId) return;
+
+        const batch = db.batch();
+        const cartRef = db.collection('cart');
+        const prevCart = await cartRef
+            .where('userId', '==', user.uid)
+            .where('stallId', '==', stallId)
+            .get();
+
+        prevCart.forEach(doc => batch.delete(doc.ref));
+        await batch.commit();
+        console.log("Cart cleared after checkout");
+    }
 });
