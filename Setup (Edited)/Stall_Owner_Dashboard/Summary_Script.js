@@ -5,15 +5,57 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const paymentSelect = document.getElementById("filterPayment");
   const foodTypeSelect = document.getElementById("filterFoodType");
-  const foodNameLabel = document.getElementById("foodNameLabel");
   const foodNameSelect = document.getElementById("filterFoodName");
   const tableBody = document.querySelector("#summaryTable tbody");
   const totalAmountCell = document.getElementById("totalAmount");
   let allOrders = [];
   let allFoodTypes = [];
-  let allFoodNames = [];
   let currentSort = { key: "orderDate", asc: true };
   let lastFilteredRows = [];
+  
+  // Add these variables to track earliest and latest transaction dates
+  let minTransactionDate = null;
+  let maxTransactionDate = null;
+  
+  // Add elements for error messages
+  const yearError = document.createElement("div");
+  yearError.className = "validation-error";
+  yearError.style.color = "red";
+  yearError.style.fontSize = "12px";
+  yearError.style.marginTop = "4px";
+  yearError.style.display = "none";
+  
+  const monthError = document.createElement("div");
+  monthError.className = "validation-error";
+  monthError.style.color = "red";
+  monthError.style.fontSize = "12px";
+  monthError.style.marginTop = "4px";
+  monthError.style.display = "none";
+  
+  // Get input elements
+  const yearInput = document.getElementById("filterYear");
+  const monthInput = document.getElementById("filterMonth");
+  const startDateInput = document.getElementById("filterStartDate");
+  const endDateInput = document.getElementById("filterEndDate");
+  
+  // Wrap inputs in filter columns if they aren't already
+  function wrapInputInFilterCol(input) {
+    // Check if input is already wrapped in filter-col
+    if (!input.parentNode.classList.contains('filter-col')) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'filter-col';
+      input.parentNode.insertBefore(wrapper, input);
+      wrapper.appendChild(input);
+      return wrapper;
+    }
+    return input.parentNode;
+  }
+
+  // Wrap inputs and append error elements to the filter columns
+  const yearCol = wrapInputInFilterCol(yearInput);
+  const monthCol = wrapInputInFilterCol(monthInput);
+  yearCol.appendChild(yearError);
+  monthCol.appendChild(monthError);
 
   // Populate payment methods
   db.collection("adminPaymentMethods").get().then(snap => {
@@ -30,6 +72,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const snap = await dbRef.get();
     allOrders = [];
     let foodTypesSet = new Set();
+    let allDates = [];
+    
     snap.forEach(doc => {
       const data = doc.data();
       (data.items || []).forEach(item => {
@@ -39,12 +83,89 @@ document.addEventListener("DOMContentLoaded", async () => {
         ...data,
         docId: doc.id
       });
+      
+      // Collect all transaction dates
+      if (data.orderDate) {
+        allDates.push(data.orderDate);
+      }
     });
+    
+    // Find min and max dates from transactions
+    if (allDates.length > 0) {
+      minTransactionDate = allDates.reduce((min, date) => 
+        date < min ? date : min, allDates[0]);
+      maxTransactionDate = allDates.reduce((max, date) => 
+        date > max ? date : max, allDates[0]);
+        
+      // Set min and max attributes on date inputs
+      startDateInput.setAttribute("min", minTransactionDate);
+      startDateInput.setAttribute("max", maxTransactionDate);
+      endDateInput.setAttribute("min", minTransactionDate);
+      endDateInput.setAttribute("max", maxTransactionDate);
+      
+      // Extract min and max years and months for validation
+      const minYear = minTransactionDate.substring(0, 4);
+      const maxYear = maxTransactionDate.substring(0, 4);
+      const minMonth = minTransactionDate.substring(5, 7);
+      const maxMonth = maxTransactionDate.substring(5, 7);
+      
+      // Add event listeners for year and month validation
+      yearInput.addEventListener("input", function() {
+        const value = this.value;
+        if (value && (value < minYear || value > maxYear)) {
+          yearError.textContent = `Year must be between ${minYear} and ${maxYear}`;
+          yearError.style.display = "block";
+          this.style.borderColor = "red";
+        } else {
+          yearError.style.display = "none";
+          this.style.borderColor = "";
+        }
+      });
+      
+      monthInput.addEventListener("input", function() {
+        const value = this.value;
+        const selectedYear = yearInput.value;
+        
+        if (value) {
+          let isInvalid = false;
+          let errorMsg = "";
+          
+          // Convert to number for proper comparison
+          const numValue = parseInt(value, 10);
+          
+          if (numValue < 1 || numValue > 12) {
+            isInvalid = true;
+            errorMsg = "Month must be between 1 and 12";
+          } else if (selectedYear == minYear && numValue < parseInt(minMonth, 10)) {
+            isInvalid = true;
+            errorMsg = `For ${minYear}, month must be at least ${parseInt(minMonth, 10)}`;
+          } else if (selectedYear == maxYear && numValue > parseInt(maxMonth, 10)) {
+            isInvalid = true;
+            errorMsg = `For ${maxYear}, month must be at most ${parseInt(maxMonth, 10)}`;
+          }
+          
+          if (isInvalid) {
+            monthError.textContent = errorMsg;
+            monthError.style.display = "block";
+            this.style.borderColor = "red";
+          } else {
+            monthError.style.display = "none";
+            this.style.borderColor = "";
+          }
+        } else {
+          monthError.style.display = "none";
+          this.style.borderColor = "";
+        }
+      });
+    }
+    
     allFoodTypes = Array.from(foodTypesSet);
     renderFoodTypeOptions();
     const allRows = flattenOrders(allOrders);
-    lastFilteredRows = allRows; // <-- Add this line
-    renderTable(allRows);
+    lastFilteredRows = allRows;
+    
+    // Only show today's orders by default
+    filterOrders();
   }
 
   // Flatten orders: one row per food item
@@ -112,7 +233,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       let match = true;
       if (year) match = match && row.orderDate.startsWith(year);
       if (month) match = match && row.orderDate.slice(5,7) === month.padStart(2, "0");
-      // Date range filter
+      
+      // Date range filter (updated to ensure default today filter)
       if (startDate && endDate) {
         match = match && (row.orderDate >= startDate && row.orderDate <= endDate);
       } else if (startDate) {
@@ -126,6 +248,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const todayStr = `${yyyy}-${mm}-${dd}`;
         match = match && (row.orderDate === todayStr);
       }
+      
       if (payment) match = match && row.paymentMethod === payment;
       if (foodType) match = match && row.foodType === foodType;
       if (foodName) match = match && row.foodName === foodName;
@@ -245,7 +368,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("resetBtn").onclick = () => {
     document.getElementById("filterForm").reset();
     document.getElementById("foodNameRow").style.display = "none";
-    filterOrders();
+    
+    // Clear any validation errors
+    yearError.style.display = "none";
+    monthError.style.display = "none";
+    yearInput.style.borderColor = "";
+    monthInput.style.borderColor = "";
+    
+    // Reset date pickers
+    startDateInput.value = "";
+    endDateInput.value = "";
+    
+    filterOrders(); // This will reapply the default today filter
   };
 
   // Food type change: show/hide food name and populate options

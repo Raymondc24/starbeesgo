@@ -88,6 +88,8 @@ body {
   display: flex;
   flex-direction: column;
   font-size: 0.98em;
+  margin-bottom: 0.2rem; /* Reduced spacing */
+  gap: 4px; /* Consistent small gap */
 }
 
 #filterForm input, #filterForm select {
@@ -197,8 +199,9 @@ th[data-sort="no"], th:first-child {
 .filter-row:first-child {
   display: flex;
   gap: 1.5rem;
-  align-items: flex-end;
-  margin-bottom: 1rem;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
 }
 
 .filter-row:first-child .filter-col {
@@ -207,9 +210,42 @@ th[data-sort="no"], th:first-child {
   flex-direction: column;
 }
 
-.filter-row:first-child label {
+/* Adjust label spacing to be closer to inputs - like Payment Method */
+.filter-row:first-child label,
+.filter-row label {
   font-weight: 500;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.25rem; /* Reduced from previous value */
+  margin-top: 0; /* Ensure no extra space above */
+  line-height: 1.2; /* Tighter line height */
+}
+
+/* Add this new section for filter columns with validation */
+.filter-col {
+  position: relative; 
+  min-height: 75px; /* Slightly reduced to bring elements closer */
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* Specific small gap between label and input */
+}
+
+/* Style for validation error messages */
+.validation-error {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  font-size: 12px;
+  color: red;
+  margin-top: 2px; /* Reduced from 4px */
+}
+
+/* Ensure input fields have consistent heights and spacing */
+.filter-section .filter-row input[type="text"],
+.filter-section .filter-row input[type="number"],
+.filter-section .filter-row input[type="date"],
+.filter-section .filter-row select {
+  height: 38px;
+  box-sizing: border-box;
+  margin-top: 1px; /* Minimal space after label */
 }
 
 @media (max-width: 900px) {
