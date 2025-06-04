@@ -177,12 +177,12 @@ h1 {
   }
 
   .header-row {
-    padding: 1rem 2rem; /* Smaller header on mobile */
+    padding: 0.8rem 2rem; /* Smaller header on mobile */
   }
 
   .logo-icon {
-    width: 100px;
-    height: 70px;
+    width: 90px;
+    height: 60px;
   }
 
   .logout-btn {

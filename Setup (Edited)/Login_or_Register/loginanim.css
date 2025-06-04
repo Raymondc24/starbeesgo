@@ -10,21 +10,32 @@ body {
     overflow-x: hidden;
     /* Add this to create a stable positioning context */
     position: relative;
+    padding-top: 110px; /* Match the header height */
 }
 
 .logo-icon {
-    position: fixed;
+    position: absolute; /* Change from fixed to absolute */
     top: 20px;
     left: 20px;
     width: 140px;
     height: 90px;
     cursor: pointer;
-    z-index: 1000; /* Increased to ensure it stays on top */
-    /* Remove transition as it's not needed for fixed positioning */
     margin: 0;
     pointer-events: auto;
     /* Prevent any transform effects from parent elements */
     transform: none !important;
+}
+
+/* Add this new header styling */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 110px; /* Adjust based on your logo size */
+    background-color: #fffcf3; /* Match your body background */
+    z-index: 10000; /* Higher than any other element */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional: adds subtle shadow */
 }
 
 .login-reg-panel {
@@ -41,6 +52,7 @@ body {
     /* Ensure this doesn't affect fixed logo */
     position: static;
     transform: none;
+    z-index: auto; /* Ensure it's not creating a stacking context */
 }
 
 .panel-container {
@@ -54,7 +66,7 @@ body {
     display: flex;
     flex-direction: row;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    /* Remove transition as it might affect fixed elements */
+    z-index: 1; /* Add an explicit lower z-index */
 }
 
 .register-info-box {
@@ -246,7 +258,7 @@ input[type="email"] {
   }
 
   h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
     margin-bottom: 1.5rem;
   }
 
