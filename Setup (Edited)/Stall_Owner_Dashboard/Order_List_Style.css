@@ -1,7 +1,16 @@
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
-  background: #f6f7fb;
+  background: #fffcf3;
   margin: 0;
+}
+
+h1 {
+  text-align: center;
+  padding-right: 50px;
+  color: #335819;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-size: 2rem;
 }
 
 .order-list-header {
@@ -18,7 +27,8 @@ body {
 }
 
 .arrow-btn {
-  background: #fff;
+  background: #335819;
+  color: #fff;
   border: 1px solid #bbb;
   border-radius: 6px;
   font-size: 1.2em;
@@ -28,8 +38,9 @@ body {
   transition: background 0.2s, box-shadow 0.2s;
 }
 .arrow-btn:hover {
-  background: #f0f0f0;
-  box-shadow: 0 2px 6px #0001;
+  background: #fff;
+  color: #333;
+  box-shadow: 0 2px 6px #335819;
 }
 
 .order-list-main {
@@ -115,4 +126,138 @@ h2 {
   box-shadow: 0 2px 12px rgba(0,0,0,0.07);
   padding: 24px 32px;
   margin-bottom: 0;
+}
+
+
+@media (max-width: 600px) {
+  /* Base reset */
+  body {
+    font-size: 14px;
+    padding-top: 10px;
+    margin: 0;
+  }
+  
+  /* Header adjustments */
+  .order-list-header {
+    padding: 12px 12px 10px 12px;
+  }
+  
+  h1 {
+    font-size: 1.4rem;
+    padding-right: 40px;
+    margin: 12px 0;
+  }
+  
+  /* Main container */
+  .order-list-main {
+    padding: 0 6px;
+    margin: 12px auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Stack sections vertically */
+  .row-layout {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  /* Section styling */
+  .order-section {
+    width: 100%;
+    padding: 12px;
+    margin: 0;
+  }
+  
+  /* Order block - critical change here */
+  .order-block {
+    display: flex !important; /* Force flex row layout */
+    flex-direction: row !important; /* Keep horizontal layout */
+    align-items: flex-start;
+    padding: 10px;
+    gap: 8px;
+  }
+  
+  /* Content area */
+  .order-info {
+    flex: 1;
+    min-width: 0; /* Allows text truncation */
+  }
+  
+  .order-id {
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .food-list {
+    padding-left: 8px;
+    font-size: 0.85rem;
+    margin: 4px 0 0 0;
+  }
+  
+  .food-list li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Button Styling Overrides */
+  .order-action-btn {
+    /* Visual styling to match desktop */
+    background: #43a047;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    
+    /* Positioning adjustments */
+    margin-left: 12px;
+    margin-top: 0;
+    width: auto;
+    min-width: 80px;
+    text-align: center;
+    
+    /* Animation to match desktop */
+    transition: all 0.2s ease;
+  }
+
+  .order-action-btn:hover {
+    background: #388e3c;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+
+  /* Adjust the order block layout */
+  .order-block {
+    align-items: center; /* Better vertical alignment */
+    padding: 12px 10px; /* Slightly reduced padding */
+  }
+
+  /* Text truncation for long content */
+  .order-info {
+    overflow: hidden;
+  }
+  
+  .food-list li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px; /* Adjust based on your needs */
+  }
+
+  /* Prevent any overflow */
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+  
+  * {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
 }
