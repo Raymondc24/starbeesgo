@@ -16,6 +16,13 @@ header {
 }
 
 #stallName {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #335819;
+  margin: 0;
+}
+
+#stallName {
   font-size: 2rem;
   font-weight: bold;
   letter-spacing: 1px;
@@ -183,4 +190,104 @@ header {
 }
 #stallOpenCheckbox:not(:checked) ~ #stallStatusLabel {
   color: #d32f2f;
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 600px) {
+  body {
+    min-height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+
+  header {
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 18px;
+    height: 60px; /* Adjust as needed for your header height */
+    display: flex;
+    align-items: center;
+    justify-content: top;
+  }
+
+  #stallName {
+    position: absolute;
+    left: 52%;
+    transform: translateX(-50%);
+    font-size: 1.3rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin: 0;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: max-content;
+    white-space: nowrap;
+  }
+
+  .logout-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    padding: 6px 12px;
+    font-size: 0.95rem;
+  }
+
+  .profile-top-right {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+  }
+
+  #profileButton .stall-image-circle {
+    width: 48px;
+    height: 48px;
+  }
+
+  #ownerName {
+    font-size: 0.95rem;
+    max-width: 60px;
+  }
+
+  .logout-btn {
+    top: 14px;
+    left: 14px;
+    padding: 6px 12px;
+    font-size: 0.95rem;
+  }
+
+  .stall-actions {
+    width: 100%;
+    align-items: center;
+  }
+
+  .stall-action-btn {
+    width: 90vw;
+    max-width: 320px;
+    height: 70px;
+    font-size: 1rem;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 18px;
+    border-radius: 12px;
+  }
+
+  .stall-action-btn img {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 0;
+    margin-right: 18px;
+  }
+
+  .stall-status-container {
+    margin-bottom: 14px;
+    gap: 8px;
+  }
 }

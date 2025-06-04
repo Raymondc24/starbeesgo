@@ -1,7 +1,7 @@
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
-  background: #f6f7fb;
+  background: #fffdf3;
 }
 
 header {
@@ -14,6 +14,9 @@ header {
 
 h1 {
   font-size: 2em;
+  justify-content: center;
+  padding-left: 500px;
+  color:#335819;
   font-weight: 600;
   margin: 0;
 }
@@ -49,6 +52,17 @@ form input {
   margin-top: 10px;
   border-radius: 8px;
   border: 1px solid #eee;
+}
+
+/* Back button */
+#backBtn {
+    background: #335819;
+    color: #fff;
+}
+#backBtn:hover {
+    background: #fff;
+    color: #333;
+    box-shadow: 0 2px 6px #335819;
 }
 
 button, .image-input button {
@@ -112,4 +126,119 @@ input[type="checkbox"] {
   width: 18px;
   height: 18px;
   accent-color: #43a047;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  /* General adjustments */
+  body {
+    padding: 0 12px;
+  }
+  
+  header {
+    padding: 16px 16px 0; /* Adjusted padding */
+    flex-wrap: nowrap; /* Prevent wrapping */
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    padding-left: 50px;
+    text-align: left; /* Changed from center */
+    flex: 1; /* Take available space */
+    white-space: nowrap; /* Prevent title wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ... if title is too long */
+  }
+  
+  /* Form section */
+  .form-section, .list-section {
+    padding: 20px 16px;
+    margin: 16px auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Form elements */
+  form input {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 8px 0;
+  }
+  
+  .image-input {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  /* Table transformation */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-radius: 8px;
+  }
+  
+  /* Table header adjustments */
+  th {
+    font-size: 0.9rem;
+    padding: 8px 4px;
+  }
+  
+  /* Table cells */
+  td {
+    padding: 8px 4px;
+    font-size: 0.9rem;
+  }
+  
+  /* Image in table */
+  td img {
+    max-width: 60px;
+    max-height: 60px;
+  }
+  
+  /* Buttons */
+  button, .image-input button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+  }
+  
+  /* Checkbox */
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+  
+  /* Action buttons in table */
+  td:last-child {
+    white-space: normal;
+  }
+  
+  /* Back button */
+ #backBtn {
+    width: auto !important; /* Remove full width */
+    padding: 8px 16px !important; /* Original padding */
+    margin: 0 !important; /* Remove mobile margin */
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+}
+
+/* Very small screens adjustments */
+@media (max-width: 480px) {
+  /* Further reduce font sizes */
+  th, td {
+    font-size: 0.8rem;
+  }
+  
+  /* Smaller images */
+  td img {
+    max-width: 50px;
+    max-height: 50px;
+  }
+  
+  /* More compact form */
+  .form-section {
+    padding: 16px 12px;
+  }
 }
